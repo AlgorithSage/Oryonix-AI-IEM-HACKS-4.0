@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oryonix AI Extension Early Access Request</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+    <link rel="stylesheet" href="style.css?v=1.0.2">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-ambient"></div>
+    
+    <div class="container">
+        <header class="form-header glass-panel">
+            <div class="logo">
+                <img src="https://raw.githubusercontent.com/Subhankar-Patra1/Oryonix-ai/main/landing/public/logo.svg" alt="Oryonix AI Logo">
+                <h1>Oryonix AI</h1>
+            </div>
+            <h2>Get Early Access to Oryonix AI</h2>
+            <p>Apply to get early beta access to the Oryonix AI extension. Please answer the onboarding questions below so we can configure your environment and prepare your build.</p>
+            <p class="required-note">* Indicates required question</p>
+        </header>
+
+        <!-- Dynamic Progress Tracker & Navigation -->
+        <div class="progress-container glass-panel sticky-tracker">
+            <div class="progress-info">
+                <span class="progress-text">0 of 15 questions answered (0%)</span>
+            </div>
+            <div class="progress-bar-wrapper">
+                <div class="progress-bar-fill"></div>
+            </div>
+            <div class="step-indicators clickable-indicators">
+                <button type="button" class="step-indicator active" data-target="section-profile">1<span class="step-text">. Profile</span></button>
+                <button type="button" class="step-indicator" data-target="section-env">2<span class="step-text">. Environment</span></button>
+                <button type="button" class="step-indicator" data-target="section-experience">3<span class="step-text">. Experience</span></button>
+                <button type="button" class="step-indicator" data-target="section-agreement">4<span class="step-text">. Agreement</span></button>
+            </div>
+        </div>
+
+        <form id="beta-form">
+            <!-- SECTION 1: Developer Profile -->
+            <div class="form-section" id="section-profile">
+                <h3 class="section-title">1. Developer Profile</h3>
+                
+                <!-- 1. Full Name -->
+                <div class="form-group glass-panel">
+                    <label for="fullName">Full Name <span class="req">*</span></label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Your answer" required>
+                </div>
+
+                <!-- 2. Email Address -->
+                <div class="form-group glass-panel">
+                    <label for="email">Email Address <span class="req">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="Your answer" required>
+                </div>
+
+                <!-- 3. GitHub Username -->
+                <div class="form-group glass-panel">
+                    <label for="github">GitHub Username <span class="optional">(Optional)</span></label>
+                    <input type="text" id="github" name="github" placeholder="Your answer">
+                </div>
+            </div>
+
+            <!-- SECTION 2: Environment & Hardware -->
+            <div class="form-section" id="section-env">
+                <h3 class="section-title">2. Environment & Hardware</h3>
+
+                <!-- 4. OS -->
+                <div class="form-group glass-panel">
+                    <label>What operating system do you primarily use? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="os" value="Windows" required> <span class="radio-custom"></span> Windows</label>
+                        <label class="radio-label"><input type="radio" name="os" value="macOS Intel"> <span class="radio-custom"></span> MacOS (Intel)</label>
+                        <label class="radio-label"><input type="radio" name="os" value="macOS Silicon"> <span class="radio-custom"></span> MacOS (Apple Silicon / M1/M2/M3)</label>
+                        <label class="radio-label"><input type="radio" name="os" value="Linux"> <span class="radio-custom"></span> Linux (Ubuntu, Fedora, Arch, etc.)</label>
+                        <label class="radio-label"><input type="radio" name="os" value="Other"> <span class="radio-custom"></span> <span class="other-text">Other:</span> <input type="text" class="other-input" name="os_other"></label>
+                    </div>
+                </div>
+
+                <!-- 5. Web Browser -->
+                <div class="form-group glass-panel">
+                    <label>Which is your primary web browser? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="browser" value="Chrome" required> <span class="radio-custom"></span> Google Chrome</label>
+                        <label class="radio-label"><input type="radio" name="browser" value="Brave"> <span class="radio-custom"></span> Brave Browser</label>
+                        <label class="radio-label"><input type="radio" name="browser" value="Edge"> <span class="radio-custom"></span> Microsoft Edge</label>
+                        <label class="radio-label"><input type="radio" name="browser" value="Arc"> <span class="radio-custom"></span> Arc</label>
+                        <label class="radio-label"><input type="radio" name="browser" value="Firefox"> <span class="radio-custom"></span> Mozilla Firefox</label>
+                        <label class="radio-label"><input type="radio" name="browser" value="Other"> <span class="radio-custom"></span> <span class="other-text">Other:</span> <input type="text" class="other-input" name="browser_other"></label>
+                    </div>
+                </div>
+
+                <!-- 6. Local LLMs -->
+                <div class="form-group glass-panel">
+                    <label>Do you currently run local LLMs on your machine (e.g. using Ollama)? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="llm" value="Ollama" required> <span class="radio-custom"></span> Yes, I regularly run local models via Ollama</label>
+                        <label class="radio-label"><input type="radio" name="llm" value="Other Tool"> <span class="radio-custom"></span> Yes, I run local models but use another tool</label>
+                        <label class="radio-label"><input type="radio" name="llm" value="Familiar"> <span class="radio-custom"></span> No, but I am familiar with the concept</label>
+                        <label class="radio-label"><input type="radio" name="llm" value="Cloud"> <span class="radio-custom"></span> No, I prefer cloud-based API models (e.g. OpenAI/Anthropic)</label>
+                    </div>
+                </div>
+
+                <!-- 7. Hours -->
+                <div class="form-group glass-panel">
+                    <label>How many hours per week do you spend on web browsing/research? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="hours" value="1-10" required> <span class="radio-custom"></span> 1 - 10 hours</label>
+                        <label class="radio-label"><input type="radio" name="hours" value="11-20"> <span class="radio-custom"></span> 11 - 20 hours</label>
+                        <label class="radio-label"><input type="radio" name="hours" value="21-40"> <span class="radio-custom"></span> 21 - 40 hours</label>
+                        <label class="radio-label"><input type="radio" name="hours" value="40+"> <span class="radio-custom"></span> 40+ hours (Heavy power user)</label>
+                    </div>
+                </div>
+
+                <!-- 8. Workflows -->
+                <div class="form-group glass-panel">
+                    <label for="workflows">Describe 1 or 2 specific browser workflows you would love for Oryonix AI to automate for you. <span class="req">*</span></label>
+                    <textarea id="workflows" name="workflows" rows="4" placeholder="Your answer" required></textarea>
+                </div>
+            </div>
+
+            <!-- SECTION 3: Experience & Alignment -->
+            <div class="form-section" id="section-experience">
+                <h3 class="section-title">3. Experience & Alignment</h3>
+
+                <!-- 9. Experience -->
+                <div class="form-group glass-panel">
+                    <label>What is your current level of experience with AI Agents or LLMs? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="experience" value="Beginner" required> <span class="radio-custom"></span> Beginner – I occasionally use ChatGPT/Gemini for simple tasks</label>
+                        <label class="radio-label"><input type="radio" name="experience" value="Intermediate"> <span class="radio-custom"></span> Intermediate – I use prompt engineering and use AI tools daily</label>
+                        <label class="radio-label"><input type="radio" name="experience" value="Advanced"> <span class="radio-custom"></span> Advanced – I build/run my own local AI environments or use APIs to build AI agents</label>
+                    </div>
+                </div>
+
+                <!-- 10. Time -->
+                <div class="form-group glass-panel">
+                    <label>How much time are you willing to dedicate to testing Oryonix AI and providing bugs/feedback? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="time" value="Under 1" required> <span class="radio-custom"></span> Under 1 hour</label>
+                        <label class="radio-label"><input type="radio" name="time" value="1-2"> <span class="radio-custom"></span> 1 - 2 hours</label>
+                        <label class="radio-label"><input type="radio" name="time" value="3-5"> <span class="radio-custom"></span> 3 - 5 hours</label>
+                        <label class="radio-label"><input type="radio" name="time" value="5+"> <span class="radio-custom"></span> 5+ hours</label>
+                    </div>
+                </div>
+
+                <!-- 11. Feature -->
+                <div class="form-group glass-panel">
+                    <label>Which Oryonix AI feature are you most excited to use? <span class="req">*</span></label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label"><input type="checkbox" name="feature" value="Ollama Integration"> <span class="checkbox-custom"></span> Seamless local AI integration with Ollama</label>
+                        <label class="checkbox-label"><input type="checkbox" name="feature" value="DOM Understanding"> <span class="checkbox-custom"></span> Full DOM understanding capability</label>
+                        <label class="checkbox-label"><input type="checkbox" name="feature" value="Cross-tab"> <span class="checkbox-custom"></span> Cross-tab/cross-window automation (Agent OS)</label>
+                        <label class="checkbox-label"><input type="checkbox" name="feature" value="Privacy"> <span class="checkbox-custom"></span> Privacy-first browser intelligence</label>
+                        <label class="checkbox-label"><input type="checkbox" name="feature" value="All"> <span class="checkbox-custom"></span> All of the above / General automation</label>
+                    </div>
+                </div>
+
+                <!-- 12. Privacy -->
+                <div class="form-group glass-panel">
+                    <label>How important is local-first privacy when using a browser agent? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="privacy" value="Extremely" required> <span class="radio-custom"></span> Extremely Important – I actively avoid cloud-based AI agents</label>
+                        <label class="radio-label"><input type="radio" name="privacy" value="Very"> <span class="radio-custom"></span> Very Important – I prefer local, but will use cloud if necessary</label>
+                        <label class="radio-label"><input type="radio" name="privacy" value="Moderately"> <span class="radio-custom"></span> Moderately Important – I don't care much, as long as the AI is smart</label>
+                    </div>
+                </div>
+
+                <!-- 13. Workflows Type -->
+                <div class="form-group glass-panel">
+                    <label>What type of workflows would you use Oryonix for? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="workflow_type" value="Research" required> <span class="radio-custom"></span> Research and information gathering</label>
+                        <label class="radio-label"><input type="radio" name="workflow_type" value="Data Entry"> <span class="radio-custom"></span> Form filling and data entry automation</label>
+                        <label class="radio-label"><input type="radio" name="workflow_type" value="Software Eng"> <span class="radio-custom"></span> Software engineering and technical documentation</label>
+                        <label class="radio-label"><input type="radio" name="workflow_type" value="General"> <span class="radio-custom"></span> General browsing and everyday automation</label>
+                        <label class="radio-label"><input type="radio" name="workflow_type" value="Other"> <span class="radio-custom"></span> Other</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 4: Commitment & Agreement -->
+            <div class="form-section" id="section-agreement">
+                <h3 class="section-title">4. Commitment & Agreement</h3>
+
+                <!-- 14. Screenshots -->
+                <div class="form-group glass-panel">
+                    <label>Are you comfortable providing detailed feedback, screenshots, or screen recordings if you encounter a bug? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="screenshots" value="Yes" required> <span class="radio-custom"></span> Yes, absolutely</label>
+                        <label class="radio-label"><input type="radio" name="screenshots" value="No"> <span class="radio-custom"></span> No, I prefer to just provide text feedback</label>
+                    </div>
+                </div>
+
+                <!-- 15. Community -->
+                <div class="form-group glass-panel">
+                    <label>How interested are you in being part of the early Oryonix AI community? <span class="req">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="community" value="Very" required> <span class="radio-custom"></span> Very interested – I want to actively contribute and test</label>
+                        <label class="radio-label"><input type="radio" name="community" value="Interested"> <span class="radio-custom"></span> Interested – I would like to try it out when it's polished</label>
+                        <label class="radio-label"><input type="radio" name="community" value="Somewhat"> <span class="radio-custom"></span> Somewhat interested – I'll wait until it's a stable beta product</label>
+                        <label class="radio-label"><input type="radio" name="community" value="Slightly"> <span class="radio-custom"></span> Slightly interested – I may test it occasionally</label>
+                        <label class="radio-label"><input type="radio" name="community" value="Wait"> <span class="radio-custom"></span> Just let me know when it's fully ready</label>
+                    </div>
+                </div>
+
+                <!-- 16. Agreement -->
+                <div class="form-group glass-panel">
+                    <label>Beta Agreement <span class="req">*</span></label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="agreement1" required> 
+                            <span class="checkbox-custom"></span>
+                            I understand that this is a beta release and I may encounter bugs or unstable behavior.
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="agreement2" required> 
+                            <span class="checkbox-custom"></span>
+                            I agree to provide meaningful feedback, report bugs, and help improve the product during the beta.
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="submit-btn" disabled>Apply for Early Access</button>
+                <button type="button" class="btn btn-secondary" id="clear-form">Clear form</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Custom Confirmation Modal -->
+    <div id="custom-modal" class="modal-backdrop">
+        <div class="modal-content glass-panel">
+            <h3 class="modal-title">Clear Form?</h3>
+            <p class="modal-message">Are you sure you want to clear the form? All your answers will be lost.</p>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="modal-cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="modal-confirm">Clear Form</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

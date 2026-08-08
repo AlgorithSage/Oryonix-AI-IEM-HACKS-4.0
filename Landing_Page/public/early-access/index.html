@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Oryonix AI - The Wait is Part of the Journey</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #020103;
+            --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --color-text-primary: #ffffff;
+            --color-text-secondary: rgba(255, 255, 255, 0.45);
+            --color-success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--color-text-primary);
+            font-family: var(--font-family);
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Ambient Space Background & Stars */
+        .stars-container {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #ffffff;
+            border-radius: 50%;
+            animation: twinkle 6s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.1);
+            }
+        }
+
+        /* 🌌 DEEP BACKGROUND GLOW */
+        .ambient-bg-glow {
+            position: absolute;
+            bottom: -15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 130vw;
+            height: 90vh;
+            background: radial-gradient(circle at 50% 90%, rgba(30, 38, 66, 0.4) 0%, rgba(13, 16, 31, 0.15) 50%, transparent 80%);
+            z-index: 2;
+            pointer-events: none;
+            filter: blur(60px);
+            transition: background 0.8s ease;
+        }
+
+        .ambient-bg-glow.unlocked {
+            background: radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.2) 0%, rgba(10, 35, 25, 0.1) 50%, transparent 80%);
+        }
+
+        /* 🌟 FOREGROUND ATMOSPHERIC DOME */
+        .glow-dome {
+            position: absolute;
+            bottom: -360px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160vw;
+            max-width: 1500px;
+            height: 600px;
+            background: radial-gradient(ellipse 50% 40% at 50% 0%, rgba(68, 88, 140, 0.45) 0%, rgba(31, 41, 71, 0.15) 50%, transparent 100%);
+            z-index: 3;
+            pointer-events: none;
+            filter: blur(35px);
+            transition: background 0.8s ease;
+        }
+
+        .glow-dome.unlocked {
+            background: radial-gradient(ellipse 50% 40% at 50% 0%, rgba(16, 185, 129, 0.3) 0%, rgba(10, 45, 30, 0.08) 50%, transparent 100%) !important;
+        }
+
+        /* ⚡ HIGH-INTENSITY HORIZON FLARE BEAM */
+        .planet-horizon {
+            position: absolute;
+            bottom: -380px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 155vw;
+            height: 580px;
+            background-color: #020103;
+            border-radius: 50% / 100% 100% 0 0;
+            z-index: 5;
+            pointer-events: none;
+            border-top: 1.5px solid rgba(255, 255, 255, 0.85);
+            box-shadow:
+                0 -1px 4px rgba(255, 255, 255, 0.9),
+                0 -4px 15px rgba(255, 255, 255, 0.35),
+                0 -15px 45px rgba(78, 114, 191, 0.4),
+                0 -35px 95px rgba(44, 62, 112, 0.2);
+            transition: border-color 0.8s ease, box-shadow 0.8s ease;
+        }
+
+        .planet-horizon.unlocked {
+            border-top-color: rgba(16, 185, 129, 0.7);
+            box-shadow:
+                0 -1px 6px rgba(16, 185, 129, 0.8),
+                0 -5px 20px rgba(16, 185, 129, 0.4),
+                0 -15px 50px rgba(16, 185, 129, 0.25),
+                0 -35px 95px rgba(10, 35, 25, 0.1);
+        }
+
+        /* Content Container */
+        .content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 20px;
+            max-width: 650px;
+            width: 100%;
+            margin-top: -80px;
+            margin-bottom: 50px;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .content.fade-out {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        /* Top Badge Tag */
+        .badge {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 100px;
+            padding: 6px 16px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: rgba(255, 255, 255, 0.4);
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 36px;
+        }
+
+        .badge .brand-text {
+            background: linear-gradient(90deg, #f97316, #fb923c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
+        /* Header Heading & Subtitle */
+        h1 {
+            font-size: clamp(2.5rem, 5.2vw, 3.8rem);
+            font-weight: 400;
+            color: var(--color-text-primary);
+            line-height: 1.15;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        h1 span {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-weight: 400;
+            text-transform: lowercase;
+            color: #ffffff;
+        }
+
+        p {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            font-weight: 400;
+            line-height: 1.5;
+            max-width: 360px;
+            margin: 0 auto 36px auto;
+        }
+
+        /* 🎛️ ADJUSTED SLIDE TO UNLOCK TRACK SYSTEM */
+        .slider-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+            z-index: 15;
+        }
+
+        .slider-track {
+            position: relative;
+            height: 62px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 100px;
+            padding: 5px;
+            /* Clean internal inset padding gap */
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            user-select: none;
+            -webkit-user-select: none;
+            overflow: hidden;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease;
+        }
+
+        .slider-track.active {
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 255, 255, 0.05);
+        }
+
+        /* Match the unlocked track look completely */
+        .slider-track.unlocked {
+            background-color: rgba(16, 185, 129, 0.12);
+            border-color: rgba(16, 185, 129, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(16, 185, 129, 0.15);
+        }
+
+        .slider-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 0px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.01) 0%, rgba(255, 255, 255, 0.08) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .slider-progress.success {
+            width: 100% !important;
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.4) 100%) !important;
+        }
+
+        .slider-text {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            pointer-events: none;
+            z-index: 2;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.75) 50%, rgba(255, 255, 255, 0.3) 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s infinite linear;
+            transition: opacity 0.2s ease;
+        }
+
+        .slider-text.fade {
+            opacity: 0.12;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -100% 0;
+            }
+
+            100% {
+                background-position: 100% 0;
+            }
+        }
+
+        .slider-handle {
+            position: absolute;
+            left: 5px;
+            /* Starting position aligned to internal padding */
+            width: 50px;
+            height: 50px;
+            background: #ffffff;
+            color: #020103;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            z-index: 3;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .slider-handle:active {
+            cursor: grabbing;
+        }
+
+        .slider-handle.success {
+            background-color: var(--color-success) !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4) !important;
+            cursor: default !important;
+        }
+
+        .slider-handle svg {
+            transition: transform 0.3s ease;
+        }
+
+        .slider-handle.success svg {
+            transform: rotate(360deg);
+        }
+
+        /* Subtle Bottom Interface Indicators */
+        footer {
+            position: absolute;
+            bottom: 24px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.15);
+            z-index: 10;
+        }
+
+        footer a {
+            color: rgba(255, 255, 255, 0.15);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* ═══ MOBILE RESPONSIVE ═══ */
+
+        /* Tablets & small laptops */
+        @media (max-width: 768px) {
+            body {
+                height: 100vh;
+                height: 100dvh;
+                min-height: unset;
+                overflow: hidden;
+            }
+
+            .content {
+                margin-top: -20px;
+                padding: 16px;
+                margin-bottom: 0;
+            }
+
+            h1 {
+                font-size: clamp(2rem, 7vw, 3rem);
+                margin-bottom: 20px;
+            }
+
+            p {
+                font-size: 0.9rem;
+                max-width: 320px;
+                margin-bottom: 28px;
+            }
+
+            .slider-wrapper {
+                max-width: 360px;
+            }
+
+            .slider-track {
+                height: 56px;
+            }
+
+            .slider-handle {
+                width: 44px;
+                height: 44px;
+            }
+
+            .ambient-bg-glow {
+                bottom: -30%;
+                height: 60vh;
+            }
+
+            .glow-dome {
+                bottom: -250px;
+                height: 400px;
+            }
+
+            .planet-horizon {
+                width: 180vw;
+                height: 400px;
+                bottom: -280px;
+            }
+
+            footer {
+                bottom: 16px;
+                gap: 16px;
+                font-size: 0.7rem;
+            }
+        }
+
+        /* Phones */
+        @media (max-width: 480px) {
+            .content {
+                margin-top: 0;
+                padding: 12px;
+            }
+
+            .badge {
+                font-size: 0.65rem;
+                padding: 5px 12px;
+                margin-bottom: 24px;
+            }
+
+            h1 {
+                font-size: clamp(1.6rem, 8vw, 2.2rem);
+                margin-bottom: 14px;
+            }
+
+            p {
+                font-size: 0.82rem;
+                max-width: 280px;
+                margin-bottom: 20px;
+            }
+
+            .slider-wrapper {
+                max-width: 280px;
+            }
+
+            .slider-track {
+                height: 50px;
+            }
+
+            .slider-handle {
+                width: 38px;
+                height: 38px;
+            }
+
+            .slider-text {
+                font-size: 0.78rem;
+            }
+
+            .ambient-bg-glow {
+                bottom: -20%;
+                height: 50vh;
+            }
+
+            .glow-dome {
+                width: 200vw;
+                bottom: -200px;
+                height: 320px;
+            }
+
+            .planet-horizon {
+                width: 200vw;
+                height: 320px;
+                bottom: -220px;
+            }
+
+            footer {
+                bottom: 10px;
+                gap: 10px;
+                font-size: 0.62rem;
+            }
+        }
+
+        /* Very small phones (360px and below) */
+        @media (max-width: 360px) {
+            .badge {
+                margin-bottom: 18px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
+
+            p {
+                font-size: 0.78rem;
+                margin-bottom: 16px;
+            }
+
+            .slider-wrapper {
+                max-width: 240px;
+            }
+
+            .slider-track {
+                height: 46px;
+            }
+
+            .slider-handle {
+                width: 34px;
+                height: 34px;
+            }
+
+            .slider-handle svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            .slider-text {
+                font-size: 0.7rem;
+            }
+
+            .glow-dome {
+                bottom: -180px;
+                height: 280px;
+            }
+
+            .planet-horizon {
+                height: 280px;
+                bottom: -190px;
+            }
+        }
+
+        /* Short viewports (landscape phones) */
+        @media (max-height: 600px) {
+            body {
+                height: 100vh;
+                height: 100dvh;
+                min-height: unset;
+                overflow: hidden;
+            }
+
+            .content {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+
+            .badge {
+                margin-bottom: 16px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
+
+            p {
+                font-size: 0.8rem;
+                margin-bottom: 16px;
+            }
+
+            .glow-dome {
+                bottom: -180px;
+                height: 280px;
+            }
+
+            .planet-horizon {
+                height: 280px;
+                bottom: -190px;
+            }
+
+            footer {
+                bottom: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="stars-container" id="starsContainer"></div>
+
+    <div class="content" id="mainContent">
+        <div class="badge">
+            <span class="brand-text">Oryonix AI</span>&nbsp;Extension
+        </div>
+
+        <h1>The wait is part<br>of the <span>journey.</span></h1>
+
+        <p>We are finalizing early beta builds of Oryonix AI, your private browser co-pilot. Slide the unlocker to begin
+            your early access onboarding.</p>
+
+        <div class="slider-wrapper">
+            <div class="slider-track" id="sliderTrack">
+                <div class="slider-progress" id="sliderProgress"></div>
+                <div class="slider-text" id="sliderText">Slide to get early access</div>
+                <div class="slider-handle" id="sliderHandle">
+                    <svg viewBox="0 0 24 24" width="20" height="20" id="sliderIcon">
+                        <path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ambient-bg-glow" id="ambientGlow"></div>
+    <div class="glow-dome" id="glowDome"></div>
+    <div class="planet-horizon" id="planetHorizon"></div>
+
+    <footer>
+        <a href="/">Back to Home</a>
+        <span>&bull;</span>
+        <a href="/privacy.html">Privacy Policy</a>
+        <span>&bull;</span>
+        <a href="/terms.html">Terms of Service</a>
+    </footer>
+
+    <script>
+        // Generate space star field background
+        const starsContainer = document.getElementById('starsContainer');
+        const numStars = 55;
+
+        for (let i = 0; i < numStars; i++) {
+            const star = document.createElement('div');
+            const top = Math.random() * 80;
+            const left = Math.random() * 100;
+            const size = Math.random() * 1.5 + 1;
+            const delay = Math.random() * 5;
+            const duration = Math.random() * 4 + 3;
+
+            star.className = 'star';
+            star.style.top = `${top}%`;
+            star.style.left = `${left}%`;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.animationDelay = `${delay}s`;
+            star.style.animationDuration = `${duration}s`;
+
+            starsContainer.appendChild(star);
+        }
+
+        // --- Core Slider Realignment Engine ---
+        const sliderHandle = document.getElementById('sliderHandle');
+        const sliderTrack = document.getElementById('sliderTrack');
+        const sliderProgress = document.getElementById('sliderProgress');
+        const sliderText = document.getElementById('sliderText');
+        const sliderIcon = document.getElementById('sliderIcon');
+        const ambientGlow = document.getElementById('ambientGlow');
+        const glowDome = document.getElementById('glowDome');
+        const planetHorizon = document.getElementById('planetHorizon');
+        const mainContent = document.getElementById('mainContent');
+
+        let isDragging = false;
+        let startX = 0;
+        let maxDrag = 0;
+        let currentLeft = 0;
+        let isUnlocked = false;
+
+        function updateMaxDrag() {
+            // Fixed calculation: track width - handle width - padding offset on both walls
+            maxDrag = sliderTrack.clientWidth - sliderHandle.clientWidth - 10;
+        }
+
+        updateMaxDrag();
+        window.addEventListener('resize', updateMaxDrag);
+
+        function startDrag(e) {
+            if (isUnlocked) return;
+            isDragging = true;
+            sliderHandle.style.transition = 'none';
+            sliderProgress.style.transition = 'none';
+            sliderTrack.classList.add('active');
+            sliderText.classList.add('fade');
+
+            startX = (e.type === 'touchstart') ? e.touches[0].clientX : e.clientX;
+            currentLeft = parseInt(window.getComputedStyle(sliderHandle).left, 10) || 5;
+        }
+
+        function drag(e) {
+            if (!isDragging || isUnlocked) return;
+
+            const clientX = (e.type === 'touchmove') ? e.touches[0].clientX : e.clientX;
+            const deltaX = clientX - startX;
+            let newLeft = currentLeft + deltaX;
+
+            // Tight bounds verification to eliminate overflow popping
+            if (newLeft < 5) newLeft = 5;
+            if (newLeft > maxDrag + 5) newLeft = maxDrag + 5;
+
+            sliderHandle.style.left = `${newLeft}px`;
+
+            // Progressive visual indicator sync
+            const pct = (newLeft - 5) / maxDrag;
+            sliderProgress.style.width = `${newLeft + (sliderHandle.clientWidth / 2)}px`;
+
+            if (pct >= 0.99) {
+                unlockSuccess();
+            }
+        }
+
+        function endDrag() {
+            if (!isDragging || isUnlocked) return;
+            isDragging = false;
+            sliderTrack.classList.remove('active');
+            sliderText.classList.remove('fade');
+
+            // Bouncy fluid elastic spring reset
+            sliderHandle.style.transition = 'left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1.15)';
+            sliderProgress.style.transition = 'width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1.15)';
+
+            sliderHandle.style.left = '5px';
+            sliderProgress.style.width = '0px';
+        }
+
+        function unlockSuccess() {
+            isUnlocked = true;
+            isDragging = false;
+
+            sliderHandle.style.transition = 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)';
+            sliderProgress.style.transition = 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)';
+            sliderHandle.style.left = `${maxDrag + 5}px`;
+            sliderProgress.style.width = '100%';
+
+            sliderTrack.classList.remove('active');
+            sliderTrack.classList.add('unlocked');
+            sliderProgress.classList.add('success');
+            sliderHandle.classList.add('success');
+
+            // Trigger synchronized state filters
+            ambientGlow.classList.add('unlocked');
+            glowDome.classList.add('unlocked');
+            planetHorizon.classList.add('unlocked');
+
+            // Material Checkmark transition replacement
+            sliderIcon.innerHTML = `<path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>`;
+
+            sliderText.classList.remove('fade');
+            sliderText.innerHTML = 'Access Granted';
+            sliderText.style.background = 'none';
+            sliderText.style.webkitTextFillColor = '#ffffff';
+
+            setTimeout(() => {
+                mainContent.classList.add('fade-out');
+                setTimeout(() => {
+                    window.location.href = 'form.html';
+                }, 600);
+            }, 600);
+        }
+
+        sliderHandle.addEventListener('mousedown', startDrag);
+        window.addEventListener('mousemove', drag);
+        window.addEventListener('mouseup', endDrag);
+
+        sliderHandle.addEventListener('touchstart', startDrag, { passive: true });
+        window.addEventListener('touchmove', drag, { passive: true });
+        window.addEventListener('touchend', endDrag);
+    </script>
+</body>
+
+</html>

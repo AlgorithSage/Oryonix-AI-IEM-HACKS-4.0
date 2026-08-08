@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terms of Use | Oryonix AI</title>
+    <style>
+      /* Inlined design tokens and styles from index.css to make terms page 100% standalone */
+      :root {
+        --color-bg-primary: #0a0604;
+        --color-accent-primary: #f97316;
+        --color-text-primary: #fafafa;
+        --color-text-secondary: #a3a3a3;
+        --color-text-tertiary: #737373;
+        --gradient-cta: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        --gradient-hero: linear-gradient(135deg, #f97316 0%, #fb923c 50%, #fdba74 100%);
+        --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 24px;
+        --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      }
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: var(--font-family);
+        color: var(--color-text-primary);
+        background: var(--color-bg-primary);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+        line-height: 1.6;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .container {
+        width: 100%;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+      @media (min-width: 768px) {
+        .container {
+          padding: 0 40px;
+        }
+      }
+      .accent-text {
+        background: var(--gradient-hero);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Standalone Custom Styles for Terms Page */
+      .terms-page-wrapper {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow-x: hidden;
+      }
+      /* Ambient Glow Blobs matching Landing Page */
+      .terms-ambient-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .terms-blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(150px);
+        opacity: 0.12;
+      }
+      .terms-blob--1 {
+        width: 600px;
+        height: 600px;
+        background: var(--color-accent-primary);
+        top: -200px;
+        left: -200px;
+      }
+      .terms-blob--2 {
+        width: 500px;
+        height: 500px;
+        background: #a855f7; /* Purple accent matching Multi-tab */
+        bottom: -100px;
+        right: -100px;
+      }
+      /* Header Nav */
+      .terms-nav {
+        position: relative;
+        z-index: 10;
+        padding: 24px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        background: rgba(10, 6, 4, 0.5);
+        backdrop-filter: blur(16px);
+      }
+      .terms-nav-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .terms-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: #fff;
+      }
+      .terms-logo img {
+        width: 32px;
+        height: 32px;
+        filter: drop-shadow(0 0 12px rgba(249, 115, 22, 0.3));
+      }
+      .terms-back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        border-radius: 99px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: var(--color-text-primary);
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: all 0.3s var(--ease-out-expo);
+      }
+      .terms-back-btn:hover {
+        background: rgba(249, 115, 22, 0.08);
+        border-color: rgba(249, 115, 22, 0.3);
+        color: var(--color-accent-primary);
+        transform: translateY(-1px);
+      }
+      /* Content Area Layout */
+      .terms-content-section {
+        flex: 1;
+        position: relative;
+        z-index: 10;
+        padding: 80px 0;
+      }
+      .terms-card {
+        background: rgba(22, 14, 11, 0.95);
+        border: 1px solid rgba(249, 115, 22, 0.15);
+        border-radius: var(--radius-xl);
+        padding: 48px;
+        box-shadow: 
+          0 24px 64px rgba(0, 0, 0, 0.6), 
+          0 0 40px rgba(249, 115, 22, 0.03);
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .terms-title-block {
+        margin-bottom: 36px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding-bottom: 24px;
+      }
+      .terms-title {
+        font-size: clamp(2rem, 3.5vw, 2.75rem);
+        font-weight: 800;
+        color: #fff;
+        line-height: 1.2;
+        margin-bottom: 12px;
+      }
+      .terms-meta {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--color-text-tertiary);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      /* Legal Text Styles */
+      .terms-body {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+      .terms-intro-box {
+        background: rgba(249, 115, 22, 0.04);
+        border: 1px solid rgba(249, 115, 22, 0.1);
+        border-radius: var(--radius-md);
+        padding: 20px 24px;
+      }
+      .terms-intro-box p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: var(--color-text-secondary);
+        margin: 0;
+      }
+      .terms-section h3 {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 12px;
+        letter-spacing: -0.01em;
+      }
+      .terms-section p {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: var(--color-text-secondary);
+        margin-bottom: 16px;
+      }
+      .terms-section p:last-child {
+        margin-bottom: 0;
+      }
+      .terms-section ul {
+        padding-left: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      .terms-section li {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: var(--color-text-secondary);
+      }
+      /* High-impact Bold Styling */
+      .terms-card strong {
+        font-weight: 800 !important;
+        color: #ffffff !important;
+      }
+      /* Special Verification Notice Box */
+      .terms-verification-box {
+        background: rgba(168, 85, 247, 0.03); /* purple hue */
+        border: 1px solid rgba(168, 85, 247, 0.15);
+        border-radius: var(--radius-md);
+        padding: 20px 24px;
+        margin-top: 16px;
+        margin-bottom: 8px;
+      }
+      .terms-verification-box h4 {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #c084fc;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .terms-verification-box p {
+        font-size: 0.85rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.5);
+        margin: 0;
+      }
+      /* Action Agree Button Styles */
+      .terms-action-wrapper {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 36px;
+      }
+      .terms-agree-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 44px;
+        border-radius: 99px;
+        background: var(--gradient-cta);
+        color: #fff !important;
+        font-size: 0.95rem;
+        font-weight: 700;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(249, 115, 22, 0.15);
+        cursor: pointer;
+        transition: all 0.3s var(--ease-out-expo);
+        text-decoration: none;
+      }
+      .terms-agree-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 4px 10px rgba(249, 115, 22, 0.25);
+        opacity: 0.95;
+      }
+      /* Footer block */
+      .terms-footer {
+        position: relative;
+        z-index: 10;
+        padding: 40px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        background: rgba(10, 6, 4, 0.8);
+        text-align: center;
+        font-size: 0.85rem;
+        color: var(--color-text-tertiary);
+      }
+      /* Custom scrollbar thumb */
+      ::-webkit-scrollbar {
+        width: 14px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--color-bg-primary);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--gradient-cta);
+        border-radius: 10px;
+        border: 4px solid var(--color-bg-primary);
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--gradient-hero);
+      }
+      /* Mobile Sizing Adjustments */
+      @media (max-width: 768px) {
+        .terms-card {
+          padding: 32px 24px;
+          border-radius: var(--radius-lg);
+        }
+        .terms-content-section {
+          padding: 40px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="terms-page-wrapper">
+      
+      <!-- Background Ambient Glow -->
+      <div class="terms-ambient-bg" aria-hidden="true">
+        <div class="terms-blob terms-blob--1"></div>
+        <div class="terms-blob terms-blob--2"></div>
+      </div>
+      <!-- Simple Nav Header -->
+      <header class="terms-nav">
+        <div class="container terms-nav-inner">
+          <a href="index.html" class="terms-logo">
+            <img src="logo.svg" alt="Oryonix AI Logo" />
+            <span class="accent-text">Oryonix AI</span>
+          </a>
+          <a href="index.html" class="terms-back-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back to Home
+          </a>
+        </div>
+      </header>
+      <!-- Terms Content Section -->
+      <main class="terms-content-section">
+        <div class="container">
+          <article class="terms-card">
+            
+            <!-- Title -->
+            <div class="terms-title-block">
+              <h1 class="terms-title">Terms of <span class="accent-text">Use</span></h1>
+              <div class="terms-meta">Last Updated: June 2026</div>
+            </div>
+            <!-- Synthesized Coherent Terms Text -->
+            <div class="terms-body">
+              <div class="terms-intro-box">
+                <p><strong>Important Scope:</strong> "We", "us", or "our" refers to the maintainers of the open-source Oryonix AI project. "The Software" refers to Oryonix AI (the core JavaScript library and browser extension). This document covers the software itself and the default demo API we provide — <em>not</em> any third-party product or service built with it.</p>
+              </div>
+              <div class="terms-section">
+                <h3>1. Scope, Definitions & Open Source Foundation</h3>
+                <p>Oryonix AI is an open-source, autonomous browser copilot that perceives web structures, executes multi-tab workflows, and interacts with web pages using natural language. The project is open source under the MIT License and can be audited at: <a href="https://github.com/Subhankar-Patra1/Oryonix-ai" target="_blank" rel="noopener noreferrer" style="color: var(--color-accent-primary); text-decoration: underline;">GitHub</a>.</p>
+              </div>
+              <div class="terms-section">
+                <h3>2. Core Operational Principles & BYOK Support</h3>
+                <p>The Software operates strictly as a client-side tool. All browser perception, DOM analysis, and agentic workflows are executed locally in your browser. You can configure your preferred LLM provider — local (Ollama) or cloud (OpenAI, Anthropic, Gemini, Groq, Mistral, or any OpenAI-compatible endpoint) — directly from the side panel.</p>
+                <p>When configuring cloud LLM providers, your API credentials are stored securely in your browser's local storage (<code>chrome.storage.local</code>). You are solely responsible for all bandwidth, token usage, and billing costs generated through your configured keys.</p>
+              </div>
+              <div class="terms-section">
+                <h3>3. Default Demo API Disclaimer & Terms of Use</h3>
+                <p>To facilitate rapid technical evaluation, the default configuration uses a free AI proxy API requiring no API key. By using this default mode, you agree to the following terms:</p>
+                <ul>
+                  <li><strong>Permitted R&D Use Only:</strong> This API is provided strictly for technical evaluation and research purposes. You must not deploy it in any production environment, integrate it into commercial services, or use it for automated web scraping at scale.</li>
+                  <li><strong>Sensitive Data Prohibition:</strong> You are strictly prohibited from submitting Personal Identifiable Information (PII), confidential business data, financial records, medical records, or running the agent on web pages containing such sensitive info.</li>
+                  <li><strong>Localization Notice:</strong> The default demo API routes requests through third-party AI provider infrastructure located in Mainland China. If you reside in a region with strict data localization laws (such as the EU/EEA), configure a local Ollama instance or your own cloud API key instead.</li>
+                  <li><strong>Age Requirement:</strong> The Software and API are not intended for use by individuals under the age of 13 (or the minimum age of digital consent in your jurisdiction).</li>
+                  <li><strong>Availability:</strong> This free API is provided on an "AS IS" and "AS AVAILABLE" basis. It may be rate-limited, degraded, or discontinued at any time without notice.</li>
+                </ul>
+              </div>
+              <div class="terms-section">
+                <h3>4. Operational Guardrails & Mandatory Human Supervision</h3>
+                <p>The Software leverages probabilistic Large Language Models (LLMs) to interpret page layouts and generate dynamic actions (clicking, typing, scrolling, tab management).</p>
+                <ul>
+                  <li><strong>No Guarantee of Flawless Execution:</strong> The Software may misinterpret landmarks, fail to identify dynamic changes, or generate unintended browser actions.</li>
+                  <li><strong>Mandatory Human Supervision:</strong> The Software is strictly an assistive tool. You are required to actively supervise the agent during active execution, particularly during workflows involving financial transactions, sensitive personal data, or system configuration changes.</li>
+                  <li><strong>No Financial Liability:</strong> The maintainers are not liable for accidental purchases, incorrect bookings, data loss, or unauthorized financial transactions resulting from automated actions.</li>
+                  <li><strong>Emergency Halt:</strong> You maintain immediate override control. You can terminate agent execution at any moment by closing the active browser tab or clicking the stop button in the interface.</li>
+                </ul>
+              </div>
+              <div class="terms-section">
+                <h3>5. Ethical Use & Platform Compliance</h3>
+                <p>When utilizing the Software, you agree to abide by the following ethical guidelines:</p>
+                <ul>
+                  <li><strong>Platform ToS Compliance:</strong> You are solely responsible for ensuring that all automated browser actions and web interactions comply with the target websites' Terms of Service and scraping policies.</li>
+                  <li><strong>Prohibited Activities:</strong> You agree NOT to use the Software to overwhelm web servers or conduct Denial of Service (DDoS) attacks, illicitly bypass paywalls or CAPTCHAs unethically, harvest user credentials, or distribute spam.</li>
+                </ul>
+              </div>
+              <div class="terms-section">
+                <h3>6. Disclaimer of Warranties & Limitation of Liability</h3>
+                <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+              </div>
+              <!-- Chrome Web Store Official Verification Notice -->
+              <div class="terms-verification-box">
+                <h4>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                  Chrome Web Store Developer Verification Notice
+                </h4>
+                <p>This standalone Terms of Use page is the designated official legal policy for <strong>Oryonix AI</strong>. It is host-verified and published publicly for Chromium-based ecosystem developer audits, security evaluations, and Chrome Web Store listing approvals.</p>
+              </div>
+              <!-- Action Agree Button -->
+              <div class="terms-action-wrapper">
+                <a href="/" class="terms-agree-btn">
+                  I Agree to the Above Terms of Use
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </main>
+      <!-- Minimalist Footer -->
+      <footer class="terms-footer">
+        <div class="container">
+          <p>© 2026 Oryonix AI. Licensed under the MIT Open Source License.</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
