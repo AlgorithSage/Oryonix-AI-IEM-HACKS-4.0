@@ -2195,8 +2195,6 @@ export default function App() {
 
                 <a
                   href="/early-access/welcome.html"
-                  target="_blank"
-                  rel="noreferrer"
                   className="btn btn--glass btn--lg"
                   style={{ width: '100%', justifyContent: 'center', padding: '10px 30px' }}
                   onClick={() => setShowInstallNotice(false)}

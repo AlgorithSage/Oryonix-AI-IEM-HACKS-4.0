@@ -1266,7 +1266,7 @@
         </main>
 
         <footer style="position: relative; margin-top: 40px; bottom: 0;">
-            <a href="https://oryonix-ai.vercel.app">Back to Home</a>
+            <a href="/">Back to Home</a>
             <span>&bull;</span>
             <a href="../privacy.html">Privacy Policy</a>
             <span>&bull;</span>
@@ -1684,6 +1684,14 @@
                     showToast('Oryonix AI loaded successfully!', 'success');
                 }, 800);
             }
+
+            // Redirect to main website if user presses browser back button from welcome page
+            (function() {
+                history.pushState(null, null, location.href);
+                window.addEventListener('popstate', function() {
+                    window.location.href = '/';
+                });
+            })();
         </script>
 </body>
 

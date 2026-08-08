@@ -1193,6 +1193,7 @@ button:focus-visible {
   overflow: hidden;
   margin: 0 auto;
   max-width: 1200px;
+  padding: 8px 12px;
 }
 
 .marquee-fade-top,
@@ -1223,7 +1224,7 @@ button:focus-visible {
 }
 
 .marquee-column {
-  overflow: hidden;
+  overflow: visible;
   position: relative;
   height: 100%;
 }
@@ -1275,15 +1276,18 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  transition: all 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .test-card:hover {
   background: var(--glass-bg-hover);
   border: var(--glass-border-hover);
   box-shadow: var(--glass-shadow-hover);
-  transform: scale(1.02);
+  transform: translateY(-2px) scale(1.02);
+  z-index: 15;
 }
 
 .test-card__quote {
