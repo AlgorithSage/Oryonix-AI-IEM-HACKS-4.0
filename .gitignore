@@ -1,0 +1,59 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+.output
+stats.html
+stats-*.json
+.wxt
+web-ext.config.ts
+*.zip
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+fara/
+daemon/
+shared_memory/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Scratch and planning artifacts
+CHANGES_README.md
+FAQ_IMPROVEMENT_SUGGESTIONS.md
+FAQ_SECTION_PLAN.md
+LANDING_PAGE_ARCHITECTURE.md
+Modelfile.fara
+NAV_UI_PLANS.md
+skills.md
+VIDEO_SCRIPT_60S.md
+VIDEO_SECTION_PLAN.md
+TERMS_OF_USE.md
+
+# Early access slider page
+landing/public/early-access/index.html
+
+# Installer scripts (temporary extension loading - not used in production)
+install.ps1
+install.sh
+install_extension_windows.bat
+install_extension_mac.command
+install_extension_linux.sh
+
+AI_COWORKER/
