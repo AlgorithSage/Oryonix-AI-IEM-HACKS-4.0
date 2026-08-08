@@ -15,12 +15,13 @@ import {
 import { RadialGlowButton } from "@/components/ui/radial-glow-button";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
-import { SharedTooltipAvatars } from "@/components/ui/shared-tooltip-avatars";
+// import { SharedTooltipAvatars } from "@/components/ui/shared-tooltip-avatars";
 import "./App.css";
 
 /* ─── Data ─── */
 const SITE = { name: "Oryonix AI", chrome: "#", github: "https://github.com/AlgorithSage/Oryonix-AI-IEM-HACKS-4.0" };
 
+/*
 const BROWSER_AVATARS = [
   { id: "chrome", name: "Google Chrome", image: "/early-access/icons/chrome.svg" },
   { id: "brave", name: "Brave", image: "/early-access/icons/brave.svg" },
@@ -29,6 +30,7 @@ const BROWSER_AVATARS = [
   { id: "helium", name: "Helium Browser", image: "/early-access/icons/helium.svg" },
   { id: "arc", name: "Arc", image: "/early-access/icons/arc.svg" },
 ];
+*/
 
 const NAV = [
   { label: "Features", href: "#features" },
