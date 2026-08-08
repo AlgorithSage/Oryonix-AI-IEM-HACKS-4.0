@@ -679,8 +679,6 @@ function Hero({ onNavClick, onInstallClick }: { onNavClick?: (e: any, href: stri
         </motion.div>
 
         <motion.div className="trust" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
-          <div className="trust__item"><span className="trust__val"><Star size={16} className="trust__star" /> 4.9</span><span className="trust__label">Chrome Rating</span></div>
-          <div className="trust__div" />
           <div className="trust__item"><span className="trust__val">100%</span><span className="trust__label">Open Source</span></div>
           <div className="trust__div" />
           <div className="trust__item"><span className="trust__val">0 bytes</span><span className="trust__label">Data Shared</span></div>
