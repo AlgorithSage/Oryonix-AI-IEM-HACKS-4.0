@@ -11,9 +11,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Subhankar-Patra1/Oryonix-ai/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-orange.svg" alt="MIT License" /></a>
-  <a href="https://github.com/Subhankar-Patra1/Oryonix-ai/stargazers"><img src="https://img.shields.io/github/stars/Subhankar-Patra1/Oryonix-ai?style=social" alt="GitHub Stars" /></a>
-  <a href="https://github.com/Subhankar-Patra1/Oryonix-ai/issues"><img src="https://img.shields.io/github/issues/Subhankar-Patra1/Oryonix-ai" alt="GitHub Issues" /></a>
+  <a href="https://github.com/AlgorithSage/Oryonix-AI-IEM-HACKS-4.0/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-orange.svg" alt="MIT License" /></a>
+  <a href="https://github.com/AlgorithSage/Oryonix-AI-IEM-HACKS-4.0/stargazers"><img src="https://img.shields.io/github/stars/AlgorithSage/Oryonix-AI-IEM-HACKS-4.0?style=social" alt="GitHub Stars" /></a>
+  <a href="https://github.com/AlgorithSage/Oryonix-AI-IEM-HACKS-4.0/issues"><img src="https://img.shields.io/github/issues/AlgorithSage/Oryonix-AI-IEM-HACKS-4.0" alt="GitHub Issues" /></a>
   <img src="https://img.shields.io/badge/Chrome-Extension-blue?logo=googlechrome" alt="Chrome Extension" />
   <img src="https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript" alt="TypeScript" />
 </p>
@@ -168,8 +168,8 @@ Oryonix AI is built as a **Chrome Extension** using the [WXT framework](https://
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Subhankar-Patra1/Oryonix-ai.git
-cd Oryonix-ai
+git clone https://github.com/AlgorithSage/Oryonix-AI-IEM-HACKS-4.0.git
+cd Oryonix-AI-IEM-HACKS-4.0
 
 # 2. Install dependencies
 npm install
@@ -199,6 +199,9 @@ npm run zip
 The production build goes to `.output/chrome-mv3/`.
 
 ### Option 3: Direct Download (For Non-Developers)
+
+> [!NOTE]
+> Oryonix AI has been submitted to the Chrome Web Store as a new extension and is currently pending review. In the meantime, you can run it from source or load the unpacked folder.
 
 If you're not a developer, you can download the pre-built extension directly:
 
@@ -398,7 +401,7 @@ We welcome contributions! Here's how to get started:
 
 ### Contribution Areas
 
-- 🐛 **Bug fixes** — Check [open issues](https://github.com/Subhankar-Patra1/Oryonix-ai/issues)
+- 🐛 **Bug fixes** — Check [open issues](https://github.com/AlgorithSage/Oryonix-AI-IEM-HACKS-4.0/issues)
 - ✨ **New features** — LLM provider integrations, new agent tools, UI improvements
 - 📝 **Documentation** — Improve guides, add examples, translate
 - 🧪 **Testing** — Help test across different websites and LLM providers
@@ -463,15 +466,15 @@ While the agent can extract data from websites, please respect each website's Te
 If you find Oryonix AI useful, please consider giving it a star! It helps others discover the project.
 
 <p align="center">
-  <a href="https://github.com/Subhankar-Patra1/Oryonix-ai/stargazers">
-    <img src="https://img.shields.io/github/stars/Subhankar-Patra1/Oryonix-ai?style=for-the-badge&logo=github&color=f97316" alt="Star on GitHub" />
+  <a href="https://github.com/AlgorithSage/Oryonix-AI-IEM-HACKS-4.0/stargazers">
+    <img src="https://img.shields.io/github/stars/AlgorithSage/Oryonix-AI-IEM-HACKS-4.0?style=for-the-badge&logo=github&color=f97316" alt="Star on GitHub" />
   </a>
 </p>
 
 ---
 
 <p align="center">
-  Built with ❤️ by <a href="https://github.com/Subhankar-Patra1">Subhankar Patra</a> and the open-source community.
+  Built with ❤️ by <a href="https://github.com/AlgorithSage">AlgorithSage</a> and the open-source community.
   <br />
   <sub>Oryonix AI — Tell it what to do. Watch it work.</sub>
 </p>

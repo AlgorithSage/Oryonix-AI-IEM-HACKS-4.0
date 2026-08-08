@@ -19,7 +19,7 @@ import { SharedTooltipAvatars } from "@/components/ui/shared-tooltip-avatars";
 import "./App.css";
 
 /* ─── Data ─── */
-const SITE = { name: "Oryonix AI", chrome: "https://chromewebstore.google.com/detail/oryonix-ai/nlodkmgcicilpgbdlgndlomomnofpaeb", github: "https://github.com/Subhankar-Patra1/Oryonix-ai" };
+const SITE = { name: "Oryonix AI", chrome: "#", github: "https://github.com/AlgorithSage/Oryonix-AI-IEM-HACKS-4.0" };
 
 const BROWSER_AVATARS = [
   { id: "chrome", name: "Google Chrome", image: "/early-access/icons/chrome.svg" },
@@ -581,9 +581,9 @@ function Navbar({ visible, activeSection, onNavClick, onInstallClick }: { visibl
                   Apply for Early Access
                 </a>
                 */}
-                <a href={SITE.chrome} target="_blank" rel="noopener noreferrer" className="btn btn--primary">
+                <button onClick={(e) => { e.preventDefault(); onInstallClick(); setOpen(false); }} className="btn btn--primary" style={{ cursor: 'pointer' }}>
                   Add to Browser
-                </a>
+                </button>
               </motion.div>
             )}
           </AnimatePresence>
@@ -593,7 +593,7 @@ function Navbar({ visible, activeSection, onNavClick, onInstallClick }: { visibl
   );
 }
 
-function Hero({ onNavClick }: { onNavClick?: (e: any, href: string) => void }) {
+function Hero({ onNavClick, onInstallClick }: { onNavClick?: (e: any, href: string) => void, onInstallClick?: () => void }) {
   // Generate random twinkling stars/dots in space
   const stars = useMemo(() => {
     return Array.from({ length: 160 }).map((_, i) => ({
@@ -648,9 +648,9 @@ function Hero({ onNavClick }: { onNavClick?: (e: any, href: string) => void }) {
             {/*
             <a href="/early-access/form.html" className="btn btn--primary btn--lg"><KeyIcon size={18} weight="fill" style={{ transform: 'translateY(1.5px)' }} />Apply for Early Access</a>
             */}
-            <a href={SITE.chrome} target="_blank" rel="noopener noreferrer" className="hero-cta-btn-wrapper" style={{ textDecoration: 'none' }}>
+            <button onClick={onInstallClick} className="hero-cta-btn-wrapper" style={{ textDecoration: 'none', border: 'none', background: 'none', padding: 0, cursor: 'pointer' }}>
               <RadialGlowButton>Add to Browser</RadialGlowButton>
-            </a>
+            </button>
             <a href="#demo" className="btn btn--glass btn--lg" onClick={(e) => onNavClick?.(e, '#demo')}>Watch Demo<ArrowRight size={16} /></a>
           </div>
         </motion.div>
@@ -1543,7 +1543,7 @@ function HowItWorks() {
 }
 
 /* ═══════════ OPEN SOURCE ═══════════ */
-function OpenSource() {
+function OpenSource({ onInstallClick }: { onInstallClick?: () => void }) {
   return (
     <section className="section" id="open-source">
       <div className="container">
@@ -1560,9 +1560,9 @@ function OpenSource() {
             {/*
             <a href="/early-access/form.html" className="btn btn--primary btn--lg"><KeyIcon size={18} weight="fill" style={{ transform: 'translateY(1.5px)' }} />Apply for Early Access</a>
             */}
-            <a href={SITE.chrome} target="_blank" rel="noopener noreferrer" className="btn btn--primary btn--lg">
+            <button onClick={onInstallClick} className="btn btn--primary btn--lg" style={{ cursor: 'pointer' }}>
               Add to Browser
-            </a>
+            </button>
           </div>
           <div className="os-card__stats">
             <div className="os-card__stat"><span className="os-card__stat-val">MIT</span><span className="os-card__stat-label">License</span></div>
@@ -1603,7 +1603,7 @@ function Testimonials() {
 }
 
 /* ═══════════ FINAL CTA ═══════════ */
-function CTA() {
+function CTA({ onInstallClick }: { onInstallClick?: () => void }) {
   return (
     <section className="section cta-section">
       <div className="cta-glow" />
@@ -1615,9 +1615,9 @@ function CTA() {
             {/*
             <a href="/early-access/form.html" className="btn btn--primary btn--lg"><KeyIcon size={18} weight="fill" style={{ transform: 'translateY(1.5px)' }} />Apply for Early Access</a>
             */}
-            <a href={SITE.chrome} target="_blank" rel="noopener noreferrer" className="btn btn--primary btn--lg">
+            <button onClick={onInstallClick} className="btn btn--primary btn--lg" style={{ cursor: 'pointer' }}>
               Add to Browser
-            </a>
+            </button>
             <a href={SITE.github} className="btn btn--glass btn--lg" target="_blank" rel="noopener noreferrer"><GithubIcon size={18} />Star on GitHub</a>
           </div>
         </motion.div>
@@ -1947,15 +1947,15 @@ export default function App() {
         onInstallClick={() => setShowInstallNotice(true)}
       />
       <main id="main-content">
-        <Hero onNavClick={handleNavClick} />
+        <Hero onNavClick={handleNavClick} onInstallClick={() => setShowInstallNotice(true)} />
         <TryItOut />
         <Features />
         <CoreFeatures />
         <Demo />
         <HowItWorks />
-        <OpenSource />
+        <OpenSource onInstallClick={() => setShowInstallNotice(true)} />
         <Testimonials />
-        <CTA />
+        <CTA onInstallClick={() => setShowInstallNotice(true)} />
         <FAQ />
       </main>
       <Footer onNavClick={handleNavClick} />
@@ -2003,9 +2003,9 @@ export default function App() {
                 <span>Early Access</span>
               </a>
               */}
-              <a href={SITE.chrome} target="_blank" rel="noopener noreferrer" className="mobile-dock__cta btn btn--primary btn--sm">
+              <button onClick={() => setShowInstallNotice(true)} className="mobile-dock__cta btn btn--primary btn--sm" style={{ cursor: 'pointer' }}>
                 <span>Add to Browser</span>
-              </a>
+              </button>
             </div>
           </motion.div>
         )}
@@ -2132,39 +2132,13 @@ export default function App() {
               </p>
               */}
 
-              <h3 style={{ fontSize: '1.4rem', margin: 0, color: 'white' }}>Install Oryonix AI</h3>
+              <h3 style={{ fontSize: '1.4rem', margin: 0, color: 'white' }}>Get Oryonix AI</h3>
               <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>
-                Oryonix AI is now officially approved and published on the Chrome Web Store.
-                Click below to add it to your browser instantly.
+                Oryonix AI has been submitted to the Chrome Web Store and is listed as an extension.
+                You can also build and load the extension directly from source.
               </p>
 
               <div style={{ display: 'flex', gap: '12px', width: '100%', marginTop: '12px', flexDirection: 'column' }}>
-                {/*
-                <a 
-                  href="/early-access/form.html" 
-                  className="btn btn--primary btn--lg" 
-                  style={{ width: '100%', justifyContent: 'center' }}
-                  onClick={() => setShowInstallNotice(false)}
-                >
-                  <KeyIcon size={18} weight="fill" style={{ transform: 'translateY(1.5px)' }} />
-                  <span style={{ marginLeft: '8px' }}>Apply for Early Access</span>
-                </a>
-                */}
-
-                <a
-                  href={SITE.chrome}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn--primary btn--lg"
-                  style={{ width: '100%', justifyContent: 'center', padding: '10px 30px' }}
-                  onClick={() => setShowInstallNotice(false)}
-                >
-                  <SharedTooltipAvatars
-                    items={BROWSER_AVATARS}
-                    className="mr-2"
-                  />
-                  <span style={{ marginLeft: '6px' }}>Add to Browser</span>
-                </a>
 
                 <a
                   href={SITE.github}
