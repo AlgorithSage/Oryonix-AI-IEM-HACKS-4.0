@@ -14,6 +14,7 @@ stats-*.json
 .wxt
 web-ext.config.ts
 *.zip
+*.mp4
 
 # Editor directories and files
 .vscode/*
