@@ -6,7 +6,7 @@ import { motion, AnimatePresence, useMotionValue, useMotionTemplate, useScroll, 
 import {
   Menu, X, ArrowRight, Play, Check,
   AppWindow, Sparkles, Lock, Rocket, Cpu, Eye, Star,
-  Package, Plug, Terminal, CheckCircle, RefreshCw,
+  Package, Plug, Terminal, CheckCircle, RefreshCw, Loader2,
   BarChart2, ChevronUp, ChevronDown,
   Brain, Zap, Sliders, Settings,
   ArrowLeft, LayoutDashboard, Plus, Folder, Search, MessageSquare, Accessibility
@@ -1862,8 +1862,51 @@ export default function App() {
   const [visibleDock, setVisibleDock] = useState(true);
   const [activeSection, setActiveSection] = useState("");
   const [showInstallNotice, setShowInstallNotice] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadSuccess, setDownloadSuccess] = useState(false);
   const lastScrollY = useRef(0);
   const isScrollingRef = useRef(false);
+
+  const handleDownload = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isDownloading) return;
+    setIsDownloading(true);
+    setDownloadSuccess(false);
+
+    try {
+      const response = await fetch('/oryonix-ai-chrome-mv3.zip');
+      if (!response.ok) throw new Error('Download failed');
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'oryonix-ai-chrome-mv3.zip';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+
+      setIsDownloading(false);
+      setDownloadSuccess(true);
+
+      setTimeout(() => {
+        setShowInstallNotice(false);
+        setDownloadSuccess(false);
+      }, 1000);
+    } catch (err) {
+      console.error(err);
+      setIsDownloading(false);
+      const a = document.createElement('a');
+      a.href = '/oryonix-ai-chrome-mv3.zip';
+      a.download = 'oryonix-ai-chrome-mv3.zip';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => {
+        setShowInstallNotice(false);
+      }, 1000);
+    }
+  };
 
   useEffect(() => {
     const handleNotice = () => setShowInstallNotice(true);
@@ -2182,16 +2225,35 @@ export default function App() {
               </p>
 
               <div style={{ display: 'flex', gap: '12px', width: '100%', marginTop: '12px', flexDirection: 'column' }}>
-                <a
-                  href="/oryonix-ai-chrome-mv3.zip"
-                  download="oryonix-ai-chrome-mv3.zip"
+                <button
+                  onClick={handleDownload}
+                  disabled={isDownloading}
                   className="btn btn--primary btn--lg"
-                  style={{ width: '100%', justifyContent: 'center', padding: '10px 30px' }}
-                  onClick={() => setShowInstallNotice(false)}
+                  style={{
+                    width: '100%',
+                    justifyContent: 'center',
+                    padding: '10px 30px',
+                    opacity: isDownloading ? 0.85 : 1,
+                    cursor: isDownloading ? 'wait' : 'pointer'
+                  }}
                 >
-                  <Rocket size={18} />
-                  <span style={{ marginLeft: '8px' }}>Download Extension (.zip)</span>
-                </a>
+                  {isDownloading ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" />
+                      <span style={{ marginLeft: '8px' }}>Downloading Extension...</span>
+                    </>
+                  ) : downloadSuccess ? (
+                    <>
+                      <CheckCircle size={18} />
+                      <span style={{ marginLeft: '8px' }}>Download Started!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Rocket size={18} />
+                      <span style={{ marginLeft: '8px' }}>Download Extension (.zip)</span>
+                    </>
+                  )}
+                </button>
 
                 <a
                   href="/welcome.html"
