@@ -5,7 +5,7 @@ import Lenis from "lenis";
 import { motion, AnimatePresence, useMotionValue, useMotionTemplate, useScroll, useTransform } from "framer-motion";
 import {
   Menu, X, ArrowRight, Play, Check,
-  AppWindow, Sparkles, Lock, Rocket, Cpu, Eye, Star,
+  AppWindow, Sparkles, Lock, Rocket, Cpu, Eye,
   Package, Plug, Terminal, CheckCircle, RefreshCw, Loader2,
   BarChart2, ChevronUp, ChevronDown,
   Brain, Zap, Sliders, Settings,
