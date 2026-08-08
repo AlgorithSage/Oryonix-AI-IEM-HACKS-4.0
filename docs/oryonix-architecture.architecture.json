@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Oryonix AI — System Architecture",
+    "subtitle": "Autonomous browser copilot · Chrome MV3 extension (WXT + React 19)",
+    "output": "oryonix-architecture.html"
+  },
+  "components": [
+    { "id": "user", "type": "external", "label": "User", "sublabel": "plain-English task", "pos": [40, 310], "size": [120, 60] },
+    { "id": "sidepanel", "type": "frontend", "label": "Side Panel UI", "sublabel": "React · chat · charts", "pos": [230, 310], "size": [130, 60] },
+    { "id": "agent", "type": "backend", "label": "MultiPageAgent", "sublabel": "@page-agent/core", "pos": [440, 310], "size": [130, 60], "tag": "agent loop" },
+    { "id": "llm", "type": "external", "label": "LLM Provider (BYOK)", "sublabel": "Ollama local · cloud APIs", "pos": [430, 120], "size": [150, 60] },
+    { "id": "background", "type": "backend", "label": "Service Worker", "sublabel": "routing · chrome.tabs", "pos": [650, 310], "size": [130, 60] },
+    { "id": "content", "type": "frontend", "label": "Content Script", "sublabel": "RemotePageController", "pos": [860, 310], "size": [130, 60] },
+    { "id": "webpage", "type": "external", "label": "Web Pages", "sublabel": "DOM · forms · tabs", "pos": [860, 470], "size": [130, 60] },
+    { "id": "storage", "type": "database", "label": "chrome.storage.local", "sublabel": "keys · config · history", "pos": [220, 470], "size": [150, 60] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Chrome Browser — Oryonix AI (Manifest V3)", "wraps": ["sidepanel", "agent", "background", "content", "storage", "webpage"] },
+    { "kind": "security-group", "label": "BYOK keys — never leave device", "wraps": ["storage"], "pad": 12 }
+  ],
+  "connections": [
+    { "from": "user", "to": "sidepanel", "label": "task", "variant": "emphasis" },
+    { "from": "sidepanel", "to": "agent", "variant": "emphasis" },
+    { "from": "agent", "to": "llm", "label": "page state ⇄ action", "variant": "emphasis", "fromSide": "top", "toSide": "bottom" },
+    { "from": "agent", "to": "background", "label": "runtime msgs", "variant": "emphasis" },
+    { "from": "background", "to": "content", "label": "PAGE_CONTROL", "variant": "emphasis" },
+    { "from": "content", "to": "webpage", "label": "click · type · read", "fromSide": "bottom", "toSide": "top", "labelDy": 24 },
+    { "from": "sidepanel", "to": "storage", "label": "keys · history", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "labelDy": 24 }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Agent loop", "items": ["Perceive — content script parses the DOM into indexed interactive elements", "Reason — page state + system prompt sent to your LLM, which returns the next action", "Act — click / type / scroll / open tab, then the loop repeats until done"] },
+    { "dot": "emerald", "title": "Multi-tab control", "items": ["Service worker routes TAB_CONTROL + PAGE_CONTROL messages to the right tab", "Managed tabs grouped under a color-coded OryonixAI(task) tab group", "Tab lifecycle events stream to the panel over a chrome.runtime Port"] },
+    { "dot": "rose", "title": "Privacy (BYOK)", "items": ["100% client-side — no backend, no telemetry, MIT-licensed", "Bring your own LLM: Ollama locally or OpenAI / Anthropic / Gemini / Groq / Mistral", "API keys live only in chrome.storage.local"] }
+  ]
+}
