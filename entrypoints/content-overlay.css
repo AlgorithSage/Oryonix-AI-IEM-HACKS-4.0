@@ -1,0 +1,157 @@
+/* Obsidian Ember Theme — Page Agent Controller Overlay Overrides */
+
+/* ── 1. Hide library highlight containers ────────────────────── */
+#playwright-highlight-container {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* ── 2. Hide default cursor fill / border parts ──────────────── */
+#page-agent-runtime_simulator-mask [class*="_cursorBorder_"],
+#page-agent-runtime_simulator-mask [class*="_cursorFilling_"] {
+  display: none !important;
+}
+
+/* ── 3. Kill Motion Canvas / rainbow overlay ─────────────────── */
+#page-agent-runtime_simulator-mask canvas,
+#page-agent-runtime_simulator-mask svg,
+#page-agent-runtime_simulator-mask > div:not([class*="cursor"]):not([class*="clicking"]):not([class*="scrolling"]):not([class*="typing"]):not([class*="pointing"]) {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* ── 4. Global color variable overrides ──────────────────────── */
+:root,
+body,
+[class*="_wrapper_"],
+[class*="gtdpc"],
+[id*="page-agent"] {
+  --color-1: #f97316 !important;
+  --color-2: #0a0604 !important;
+  --color-3: #ea580c !important;
+  --color-4: #f97316 !important;
+}
+
+[class*="_background_"]::before,
+[class*="_background_"]::after,
+[class*="_cursorBorder_"] {
+  background-image: linear-gradient(to bottom left, #f97316, #ea580c, #f97316) !important;
+}
+
+/* ── 5. Animations for Rolling Border ─────────── */
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes borderSpin {
+  0%   { --border-angle: 0deg; }
+  100% { --border-angle: 360deg; }
+}
+
+/* ── 6. Mask container — base ────────────────────────────────── */
+#page-agent-runtime_simulator-mask {
+  pointer-events: none !important;
+  z-index: 2147483640 !important;
+  background: transparent !important;
+  position: fixed !important;
+  inset: 0 !important;
+  border-radius: 12px !important;
+  
+  /* Lighter, static inward glow (using double layer for thickness) */
+  box-shadow: 
+    inset 0 0 25px rgba(253, 186, 116, 0.8),
+    inset 0 0 80px rgba(251, 146, 60, 0.5) !important;
+}
+
+/* ── 7. Rolling Border (::after) ──────────────────── */
+#page-agent-runtime_simulator-mask::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  z-index: 2147483641 !important;
+  border-radius: inherit !important;
+
+  /* Lighter orange rolling gradient with a bright white-hot peak */
+  background: conic-gradient(
+    from var(--border-angle),
+    #ea580c,
+    #fb923c,
+    #fdba74,
+    #ffffff,
+    #fdba74,
+    #fb923c,
+    #ea580c
+  ) !important;
+
+  /* 2px hollow frame via mask-composite */
+  padding: 2px !important;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0) !important;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0) !important;
+  -webkit-mask-composite: xor !important;
+  mask-composite: exclude !important;
+
+  animation: borderSpin 4s linear infinite !important;
+}
+
+/* ── 9. Normal arrow cursor ───────────────────────────────────── */
+#page-agent-runtime_simulator-mask div:not([class*="scrolling"]):not([class*="clicking"]):not([class*="typing"]):has(> [class*="cursorRipple"]) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='36' height='36'%3E%3Cpath fill='%23fb923c' stroke='%23fff8f0' stroke-width='1' stroke-linejoin='round' d='M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.42c.45 0 .67-.54.35-.85L5.85 2.85a.5.5 0 0 0-.85.35Z'/%3E%3C/svg%3E") !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  width: 36px !important;
+  height: 36px !important;
+  margin-left: -5px !important;
+  margin-top: -3px !important;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.55)) drop-shadow(0 2px 6px rgba(249, 115, 22, 0.5)) !important;
+}
+
+/* ── 10. Hand Tool (edit.svg) ───────────────────────── */
+#page-agent-runtime_simulator-mask div[class*="clicking"]:has(> [class*="cursorRipple"]),
+#page-agent-runtime_simulator-mask div[class*="pointing"]:has(> [class*="cursorRipple"]) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='36' height='36'%3E%3Cpath fill='%23F26510' stroke='%23fff8f0' stroke-width='0.6' stroke-linejoin='round' d='M9 2a1.5 1.5 0 0 1 1.5 1.5V9a1.5 1.5 0 0 1 1.5-1 1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1 1-1 1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1 1-1 1.5 1.5 0 0 1 1.5 1.5V17a5 5 0 0 1-5 5H11a5 5 0 0 1-5-5v-5.5a1.5 1.5 0 0 1 1.5-1.5V3.5A1.5 1.5 0 0 1 9 2z'/%3E%3C/svg%3E") !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  width: 36px !important;
+  height: 36px !important;
+  margin-left: -5px !important;
+  margin-top: -3px !important;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.55)) drop-shadow(0 2px 6px rgba(249, 115, 22, 0.5)) !important;
+}
+
+/* ── 11. Mouse Tool (orange mouse.svg) ───────────────────────── */
+#page-agent-runtime_simulator-mask div[class*="scrolling"]:has(> [class*="cursorRipple"]) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 24 24'%3E%3Crect x='8' y='2' width='8' height='14' rx='4' fill='%23111' stroke='%23f97316' stroke-width='1.5'/%3E%3Cline x1='12' y1='6' x2='12' y2='10' stroke='%23f97316' stroke-width='1.5' stroke-linecap='round'/%3E%3C%2Fsvg%3E") !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  width: 44px !important;
+  height: 44px !important;
+  margin-left: -22px !important;
+  margin-top: -22px !important;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.4)) drop-shadow(0 2px 10px rgba(249, 115, 22, 0.5)) !important;
+}
+
+/* ── 12. Typing cursor (I-Beam) ──────────────────────────────── */
+#page-agent-runtime_simulator-mask div[class*="typing"]:has(> [class*="cursorRipple"]) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='36' height='36'%3E%3Cpath fill='none' stroke='%23fb923c' stroke-width='3' stroke-linecap='round' d='M9 4h6M12 4v16M9 20h6'/%3E%3C/svg%3E") !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  width: 32px !important;
+  height: 32px !important;
+  margin-left: -16px !important;
+  margin-top: -16px !important;
+  filter: drop-shadow(0 0 2px rgba(249, 115, 22, 0.8)) !important;
+}
+
+#page-agent-runtime_simulator-mask [class*="cursorRipple"]::after {
+  border-color: #f97316 !important;
+}
