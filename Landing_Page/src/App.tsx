@@ -1486,6 +1486,8 @@ function CoreFeatures() {
 
 /* ═══════════ DEMO ═══════════ */
 function Demo() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
   return (
     <section className="section" id="demo">
       <div className="container">
@@ -1493,11 +1495,31 @@ function Demo() {
           <h2>See it <span className="accent-text">in action</span></h2>
           <p>Watch the agent complete real tasks — autonomously.</p>
         </div>
-        <motion.div className="demo" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
+        <motion.div
+          className="demo"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          onViewportEnter={() => {
+            if (videoRef.current) {
+              videoRef.current.play().catch(() => {});
+            }
+          }}
+          onViewportLeave={() => {
+            if (videoRef.current) {
+              videoRef.current.pause();
+            }
+          }}
+        >
           <div className="demo__player">
             <video
+              ref={videoRef}
               src="/demo-video.mp4"
               controls
+              autoPlay
+              muted
+              playsInline
               loop
               style={{ width: '100%', display: 'block', borderRadius: 'inherit' }}
             >
