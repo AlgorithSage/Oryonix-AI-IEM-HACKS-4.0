@@ -501,12 +501,6 @@ const STEPS = [
   { n: 3, Icon: Terminal, title: "Command", desc: "Type what you want in the side panel. Plain English." },
   { n: 4, Icon: CheckCircle, title: "Done", desc: "Watch the agent work autonomously. Review the results." },
 ];
-const TESTIMONIALS = [
-  { q: "This replaced three separate browser automation tools for me. The natural language interface is a game-changer.", name: "Alex Chen", role: "Full-Stack Developer", av: "AC" },
-  { q: "Finally, browser automation that respects my privacy. Running locally with Ollama gives me full control.", name: "Sarah Martinez", role: "Security Engineer", av: "SM" },
-  { q: "I use it daily for testing workflows. The multi-tab support saves me hours every week.", name: "James Park", role: "QA Lead", av: "JP" },
-  { q: "Open source, local-first, and it actually works. This is how AI tools should be built.", name: "Priya Sharma", role: "DevOps Engineer", av: "PS" },
-];
 const OS_FEATURES = ["Full multi-tab browser agent", "Local LLM support (Ollama)", "Custom LLM endpoint support", "Smart page reading & interaction", "Tab grouping & management", "MIT Licensed — forever free"];
 const FOOTER_COLS = [
   { title: "Product", links: [{ l: "Features", h: "#features" }, { l: "Demo", h: "#demo" }, { l: "How It Works", h: "#how-it-works" }] },
@@ -1579,26 +1573,74 @@ function OpenSource({ onInstallClick }: { onInstallClick?: () => void }) {
   );
 }
 
+const TESTIMONIALS = [
+  // Column 1
+  { q: "I use it daily for testing workflows. The multi-tab support saves me hours every week.", name: "James Park", role: "QA Lead", av: "JP" },
+  { q: "Finally, browser automation that respects my privacy. Running locally with Ollama gives me full control.", name: "Sarah Martinez", role: "Security Engineer", av: "SM" },
+  { q: "The DOM dehydration feature makes actions super fast and reliable. Best tool in my dev setup.", name: "Elena Rostova", role: "Frontend Architect", av: "ER" },
+  { q: "Automating multi-step form submissions without complex scripts has doubled our team productivity.", name: "Marcus Vance", role: "Automation Lead", av: "MV" },
+  
+  // Column 2
+  { q: "This replaced three separate browser automation tools for me. The natural language interface is a game-changer.", name: "Alex Chen", role: "Full-Stack Developer", av: "AC" },
+  { q: "Finally, browser automation that respects my privacy. Running locally with Ollama gives me full control.", name: "Sarah Martinez", role: "Security Engineer", av: "SM" },
+  { q: "The zero-backend architecture allowed us to plug Oryonix right into our internal web dashboard.", name: "David Kim", role: "Lead Systems Engineer", av: "DK" },
+  { q: "I created custom web scrapers in seconds just by asking in plain English.", name: "Rachel Adams", role: "Data Scientist", av: "RA" },
+
+  // Column 3
+  { q: "This replaced three separate browser automation tools for me. The natural language interface is a game-changer.", name: "Alex Chen", role: "Full-Stack Developer", av: "AC" },
+  { q: "Open source, local-first, and it actually works. This is how AI tools should be built.", name: "Priya Sharma", role: "DevOps Engineer", av: "PS" },
+  { q: "The ability to run local models via Ollama means zero sensitive data leaves our network. Game-changer.", name: "Liam O'Connor", role: "Cybersecurity Analyst", av: "LO" },
+  { q: "Navigating complex SaaS admin panels automatically saves me so much tedious clicking.", name: "Sofia Chen", role: "Product Ops Manager", av: "SC" }
+];
+
 /* ═══════════ TESTIMONIALS ═══════════ */
 function Testimonials() {
-  return (
-    <section className="section section-alt">
-      <div className="container">
-        <div className="section__head">
-          <h2>Loved by <span className="accent-text">developers</span></h2>
-          <p>See what people are saying about Oryonix AI.</p>
-        </div>
-        <motion.div className="test-grid" variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-50px" }}>
-          {TESTIMONIALS.map(t => (
-            <motion.div key={t.name} className="test-card" variants={fadeUp} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}>
+  const col1 = [TESTIMONIALS[0], TESTIMONIALS[1], TESTIMONIALS[2], TESTIMONIALS[3]];
+  const col2 = [TESTIMONIALS[4], TESTIMONIALS[5], TESTIMONIALS[6], TESTIMONIALS[7]];
+  const col3 = [TESTIMONIALS[8], TESTIMONIALS[9], TESTIMONIALS[10], TESTIMONIALS[11]];
+
+  const renderColumn = (items: typeof TESTIMONIALS, direction: 'up' | 'down' = 'up') => {
+    // Duplicate array 3 times for seamless looping
+    const tripleItems = [...items, ...items, ...items];
+    return (
+      <div className={`marquee-column marquee-column--${direction}`}>
+        <div className="marquee-track">
+          {tripleItems.map((t, idx) => (
+            <div key={`${t.name}-${idx}`} className="test-card">
               <p className="test-card__quote">&ldquo;{t.q}&rdquo;</p>
               <div className="test-card__author">
                 <div className="test-card__avatar">{t.av}</div>
-                <div><div className="test-card__name">{t.name}</div><div className="test-card__role">{t.role}</div></div>
+                <div>
+                  <div className="test-card__name">{t.name}</div>
+                  <div className="test-card__role">{t.role}</div>
+                </div>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <section className="section section-alt marquee-testimonials-section">
+      <div className="container">
+        <div className="section__head" style={{ marginBottom: '48px' }}>
+          <h2>Loved by <span className="accent-text">developers</span></h2>
+          <p>See what people are saying about Oryonix AI.</p>
+        </div>
+
+        <div className="marquee-wrapper">
+          {/* Top and Bottom gradient overlays for fading edge effect */}
+          <div className="marquee-fade-top" />
+          <div className="marquee-fade-bottom" />
+
+          <div className="marquee-grid">
+            {renderColumn(col1, 'up')}
+            {renderColumn(col2, 'down')}
+            {renderColumn(col3, 'up')}
+          </div>
+        </div>
       </div>
     </section>
   );

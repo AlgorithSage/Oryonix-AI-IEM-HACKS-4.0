@@ -1182,14 +1182,91 @@ button:focus-visible {
 /* ═══════════════════════════════════════════
    TESTIMONIALS
    ═══════════════════════════════════════════ */
-.test-grid {
+.marquee-testimonials-section {
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-wrapper {
+  position: relative;
+  height: 520px;
+  overflow: hidden;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.marquee-fade-top,
+.marquee-fade-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 90px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.marquee-fade-top {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(12, 12, 14, 0.95) 0%, rgba(12, 12, 14, 0) 100%);
+}
+
+.marquee-fade-bottom {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(12, 12, 14, 0.95) 0%, rgba(12, 12, 14, 0) 100%);
+}
+
+.marquee-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+  height: 100%;
+}
+
+.marquee-column {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}
+
+.marquee-track {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  will-change: transform;
+}
+
+.marquee-column--up .marquee-track {
+  animation: marqueeScrollUp 25s linear infinite;
+}
+
+.marquee-column--down .marquee-track {
+  animation: marqueeScrollDown 25s linear infinite;
+}
+
+.marquee-wrapper:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScrollUp {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-33.333%);
+  }
+}
+
+@keyframes marqueeScrollDown {
+  0% {
+    transform: translateY(-33.333%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
 }
 
 .test-card {
-  padding: 28px;
+  padding: 24px 28px;
   background: var(--glass-bg);
   backdrop-filter: blur(16px);
   border: var(--glass-border);
@@ -1197,20 +1274,22 @@ button:focus-visible {
   box-shadow: var(--glass-shadow);
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  transition: all 0.3s;
+  gap: 16px;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .test-card:hover {
   background: var(--glass-bg-hover);
   border: var(--glass-border-hover);
   box-shadow: var(--glass-shadow-hover);
+  transform: scale(1.02);
 }
 
 .test-card__quote {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--color-text-secondary);
-  line-height: 1.7;
+  line-height: 1.6;
   font-style: italic;
   flex: 1;
 }
@@ -1226,6 +1305,7 @@ button:focus-visible {
   height: 40px;
   border-radius: 50%;
   background: rgba(249, 115, 22, 0.12);
+  border: 1px solid rgba(249, 115, 22, 0.25);
   color: var(--color-accent-primary);
   display: flex;
   align-items: center;
@@ -1238,6 +1318,7 @@ button:focus-visible {
 .test-card__name {
   font-size: 0.875rem;
   font-weight: 600;
+  color: #fff;
 }
 
 .test-card__role {
@@ -1245,7 +1326,23 @@ button:focus-visible {
   color: var(--color-text-tertiary);
 }
 
-/* Testimonial logic handled at bottom */
+@media (max-width: 900px) {
+  .marquee-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .marquee-column:nth-child(3) {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .marquee-grid {
+    grid-template-columns: 1fr;
+  }
+  .marquee-column:nth-child(2) {
+    display: none;
+  }
+}
 
 /* ═══════════════════════════════════════════
    FINAL CTA
