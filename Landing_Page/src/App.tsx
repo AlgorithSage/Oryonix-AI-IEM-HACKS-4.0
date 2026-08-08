@@ -2134,28 +2134,50 @@ export default function App() {
               </p>
               */}
 
-              <h3 style={{ fontSize: '1.4rem', margin: 0, color: 'white' }}>Get Oryonix AI</h3>
+              <h3 style={{ fontSize: '1.4rem', margin: 0, color: 'white' }}>Install Oryonix AI Extension</h3>
               <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>
-                Oryonix AI has been submitted to the Chrome Web Store and is listed as an extension.
-                You can also build and load the extension directly from source.
+                Download the compiled Chrome MV3 extension bundle (`.zip`) directly or read our complete setup & user manual.
               </p>
 
               <div style={{ display: 'flex', gap: '12px', width: '100%', marginTop: '12px', flexDirection: 'column' }}>
+                <a
+                  href="/early-access/oryonix-ai-chrome-mv3.zip"
+                  download="oryonix-ai-chrome-mv3.zip"
+                  className="btn btn--primary btn--lg"
+                  style={{ width: '100%', justifyContent: 'center', padding: '10px 30px' }}
+                  onClick={() => setShowInstallNotice(false)}
+                >
+                  <Rocket size={18} />
+                  <span style={{ marginLeft: '8px' }}>Download Extension (.zip)</span>
+                </a>
 
                 <a
-                  href={SITE.github}
+                  href="/early-access/welcome.html"
                   target="_blank"
                   rel="noreferrer"
                   className="btn btn--glass btn--lg"
                   style={{ width: '100%', justifyContent: 'center', padding: '10px 30px' }}
                   onClick={() => setShowInstallNotice(false)}
                 >
-                  <GithubIcon size={18} />
-                  <span style={{ marginLeft: '8px' }}>Get from GitHub</span>
+                  <Sparkles size={18} />
+                  <span style={{ marginLeft: '8px' }}>Open User Manual & Setup Guide</span>
                 </a>
+
+                <a
+                  href={SITE.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn--glass btn--lg"
+                  style={{ width: '100%', justifyContent: 'center', padding: '10px 30px', opacity: 0.8 }}
+                  onClick={() => setShowInstallNotice(false)}
+                >
+                  <GithubIcon size={18} />
+                  <span style={{ marginLeft: '8px' }}>View on GitHub</span>
+                </a>
+
                 <button
                   className="btn btn--glass btn--lg"
-                  style={{ width: '100%', justifyContent: 'center', background: 'transparent', opacity: 0.7, padding: '10px 30px' }}
+                  style={{ width: '100%', justifyContent: 'center', background: 'transparent', opacity: 0.6, padding: '8px 30px' }}
                   onClick={() => setShowInstallNotice(false)}
                 >
                   Close
