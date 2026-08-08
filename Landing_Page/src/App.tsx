@@ -23,12 +23,12 @@ const SITE = { name: "Oryonix AI", chrome: "#", github: "https://github.com/Algo
 
 /*
 const BROWSER_AVATARS = [
-  { id: "chrome", name: "Google Chrome", image: "/early-access/icons/chrome.svg" },
-  { id: "brave", name: "Brave", image: "/early-access/icons/brave.svg" },
-  { id: "edge", name: "Microsoft Edge", image: "/early-access/icons/edge.svg" },
-  { id: "opera", name: "Opera", image: "/early-access/icons/opera.svg" },
-  { id: "helium", name: "Helium Browser", image: "/early-access/icons/helium.svg" },
-  { id: "arc", name: "Arc", image: "/early-access/icons/arc.svg" },
+  { id: "chrome", name: "Google Chrome", image: "/icons/chrome.svg" },
+  { id: "brave", name: "Brave", image: "/icons/brave.svg" },
+  { id: "edge", name: "Microsoft Edge", image: "/icons/edge.svg" },
+  { id: "opera", name: "Opera", image: "/icons/opera.svg" },
+  { id: "helium", name: "Helium Browser", image: "/icons/helium.svg" },
+  { id: "arc", name: "Arc", image: "/icons/arc.svg" },
 ];
 */
 
@@ -2183,7 +2183,7 @@ export default function App() {
 
               <div style={{ display: 'flex', gap: '12px', width: '100%', marginTop: '12px', flexDirection: 'column' }}>
                 <a
-                  href="/early-access/oryonix-ai-chrome-mv3.zip"
+                  href="/oryonix-ai-chrome-mv3.zip"
                   download="oryonix-ai-chrome-mv3.zip"
                   className="btn btn--primary btn--lg"
                   style={{ width: '100%', justifyContent: 'center', padding: '10px 30px' }}
@@ -2194,7 +2194,7 @@ export default function App() {
                 </a>
 
                 <a
-                  href="/early-access/welcome.html"
+                  href="/welcome.html"
                   className="btn btn--glass btn--lg"
                   style={{ width: '100%', justifyContent: 'center', padding: '10px 30px' }}
                   onClick={() => setShowInstallNotice(false)}
