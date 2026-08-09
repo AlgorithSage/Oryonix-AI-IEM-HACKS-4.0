@@ -11,6 +11,7 @@ import {
   Brain, Zap, Sliders, Settings,
   ArrowLeft, LayoutDashboard, Plus, Folder, Search, MessageSquare
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 // import { Key as KeyIcon } from "@phosphor-icons/react";
 import { RadialGlowButton } from "@/components/ui/radial-glow-button";
 import { BorderBeam } from "@/components/ui/border-beam";
@@ -495,8 +496,9 @@ const FEATURES = [
     )
   }
 ];
-const STEPS = [
-  { n: 1, Icon: Package, title: "Install", desc: "Add from Chrome Web Store. One click, zero config." },
+type Step = { n: number; Icon: LucideIcon; title: string; desc: string; badge?: string };
+const STEPS: Step[] = [
+  { n: 1, Icon: Package, title: "Install", desc: "Add from Chrome Web Store. One click, zero config.", badge: "Coming Soon" },
   { n: 2, Icon: Plug, title: "Connect", desc: "Run Ollama locally — your AI, your machine, your rules." },
   { n: 3, Icon: Terminal, title: "Command", desc: "Type what you want in the side panel. Plain English." },
   { n: 4, Icon: CheckCircle, title: "Done", desc: "Watch the agent work autonomously. Review the results." },
@@ -1599,6 +1601,12 @@ function HowItWorks() {
               <div className="step-card__num">{s.n}</div>
               <span className="step-card__icon"><s.Icon size={28} strokeWidth={1.5} /></span>
               <h3 className="step-card__title">{s.title}</h3>
+              {s.badge && (
+                <span className="step-card__badge">
+                  <span className="step-card__badge-dot" />
+                  {s.badge}
+                </span>
+              )}
               <p className="step-card__desc">{s.desc}</p>
               {i < STEPS.length - 1 && <div className="step-card__connector" />}
             </motion.div>

@@ -1359,6 +1359,31 @@ button:focus-visible {
   margin-bottom: 8px;
 }
 
+.step-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+  padding: 4px 12px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent-secondary);
+  background: rgba(249, 115, 22, 0.08);
+  border: 1px solid rgba(249, 115, 22, 0.18);
+  border-radius: 100px;
+}
+
+.step-card__badge-dot {
+  width: 5px;
+  height: 5px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-accent-primary);
+  animation: pulse-glow 2s infinite;
+}
+
 .step-card__desc {
   font-size: 0.875rem;
   color: var(--color-text-secondary);
