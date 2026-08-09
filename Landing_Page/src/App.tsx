@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useLayoutEffect, useRef, useMemo } from "react";
 import Lenis from "lenis";
 // Added useScroll and useTransform for the stacking scroll effect
 import { motion, AnimatePresence, useMotionValue, useMotionTemplate, useScroll, useTransform } from "framer-motion";
@@ -9,7 +9,7 @@ import {
   Package, Plug, Terminal, CheckCircle, RefreshCw, Loader2,
   BarChart2, ChevronUp, ChevronDown,
   Brain, Zap, Sliders, Settings,
-  ArrowLeft, LayoutDashboard, Plus, Folder, Search, MessageSquare, Accessibility
+  ArrowLeft, LayoutDashboard, Plus, Folder, Search, MessageSquare
 } from "lucide-react";
 // import { Key as KeyIcon } from "@phosphor-icons/react";
 import { RadialGlowButton } from "@/components/ui/radial-glow-button";
@@ -500,6 +500,14 @@ const STEPS = [
   { n: 2, Icon: Plug, title: "Connect", desc: "Run Ollama locally — your AI, your machine, your rules." },
   { n: 3, Icon: Terminal, title: "Command", desc: "Type what you want in the side panel. Plain English." },
   { n: 4, Icon: CheckCircle, title: "Done", desc: "Watch the agent work autonomously. Review the results." },
+];
+const CORE_RADIAL = [
+  { n: "01", title: "Natural Language Control", desc: "Describe a task in plain English — no scripts, no CSS selectors, no XPath to write." },
+  { n: "02", title: "Autonomous Web Actions", desc: "Clicks, types, scrolls, and navigates the page on its own, no step-by-step supervision needed." },
+  { n: "03", title: "Multi-Step Task Execution", desc: "Breaks a complex request into an ordered chain of actions and runs the full loop end-to-end." },
+  { n: "04", title: "Cross-Tab Browsing", desc: "Opens, switches, and manages multiple tabs at once, auto-grouped under a labeled Oryonix tab group." },
+  { n: "05", title: "Privacy-First Architecture", desc: "Runs entirely client-side with your own LLM keys. Zero telemetry, nothing leaves your browser." },
+  { n: "06", title: "Chat-Style Browser Companion", desc: "One conversational side panel in Chrome, built for technical and non-technical users alike." },
 ];
 const OS_FEATURES = ["Full multi-tab browser agent", "Local LLM support (Ollama)", "Custom LLM endpoint support", "Smart page reading & interaction", "Tab grouping & management", "MIT Licensed — forever free"];
 const FOOTER_COLS = [
@@ -1350,133 +1358,176 @@ function Features() {
   );
 }
 
-/* ═══════════ CORE FEATURES ═══════════ */
+/* ═══════════ CORE FEATURES (radial) ═══════════ */
+function CoreHub({ compact = false }: { compact?: boolean }) {
+  return (
+    <div className={`core-hub ${compact ? "core-hub--compact" : ""}`}>
+      <BorderBeam size={compact ? 60 : 90} duration={7} colorFrom="#f97316" colorTo="#fdba74" borderWidth={1.5} />
+      <span className="core-hub__eyebrow">
+        <img src="/logo.svg" alt="" className="core-hub__logo" />
+        Oryonix AI
+      </span>
+      <span className="core-hub__title">Autonomous<br />Web Agent</span>
+    </div>
+  );
+}
+
+/**
+ * Geometry for the dotted connectors. Measured from layout boxes
+ * (offsetLeft/offsetTop) rather than getBoundingClientRect so the framer-motion
+ * entrance transform on each node can't skew the paths.
+ */
+type CoreLinks = { w: number; h: number; cx: number; paths: { d: string; side: "left" | "right"; x: number; y: number }[] };
+
+function useCoreLinks(wrapRef: React.RefObject<HTMLDivElement | null>, hubRef: React.RefObject<HTMLDivElement | null>) {
+  const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [links, setLinks] = useState<CoreLinks>({ w: 0, h: 0, cx: 0, paths: [] });
+
+  useLayoutEffect(() => {
+    const compute = () => {
+      const wrap = wrapRef.current;
+      const hub = hubRef.current;
+      if (!wrap || !hub || wrap.offsetWidth === 0) return;
+
+      const cx = hub.offsetLeft + hub.offsetWidth / 2;
+      const cy = hub.offsetTop + hub.offsetHeight / 2;
+      const r = hub.offsetWidth / 2;
+
+      const paths = nodeRefs.current.flatMap((el, i) => {
+        if (!el) return [];
+        const side: "left" | "right" = i < 3 ? "left" : "right";
+        // Anchor just clear of the card edge that faces the hub.
+        const gap = 9;
+        const sx = side === "left" ? el.offsetLeft + el.offsetWidth + gap : el.offsetLeft - gap;
+        const sy = el.offsetTop + el.offsetHeight / 2;
+        // Land on the hub's circumference, not its centre.
+        const vx = sx - cx;
+        const vy = sy - cy;
+        const len = Math.hypot(vx, vy) || 1;
+        const ex = cx + (vx / len) * (r + 12);
+        const ey = cy + (vy / len) * (r + 12);
+        // Smooth-step curve: flat for the middle row, gentle S for the outer rows.
+        const mx = sx + (ex - sx) * 0.5;
+        return [{ d: `M ${sx} ${sy} C ${mx} ${sy} ${mx} ${ey} ${ex} ${ey}`, side, x: sx, y: sy }];
+      });
+
+      setLinks((prev) => {
+        const next = { w: wrap.offsetWidth, h: wrap.offsetHeight, cx, paths };
+        const same = prev.w === next.w && prev.h === next.h && prev.cx === next.cx
+          && prev.paths.length === next.paths.length
+          && prev.paths.every((p, i) => p.d === next.paths[i].d);
+        return same ? prev : next;
+      });
+    };
+
+    compute();
+    const ro = new ResizeObserver(compute);
+    if (wrapRef.current) ro.observe(wrapRef.current);
+    // Web-font swap changes card heights after first paint.
+    document.fonts?.ready.then(compute).catch(() => {});
+    return () => ro.disconnect();
+  }, [wrapRef, hubRef]);
+
+  return { nodeRefs, links };
+}
+
 function CoreFeatures() {
-  const CORE_ITEMS = [
-    {
-      Icon: Brain,
-      iconColor: "#ec4899", // Pink/Magenta
-      title: "Smart DOM Analysis",
-      desc: "DOM-based analysis with high-intensity dehydration. No visual recognition needed. Pure text for fast and precise operations.",
-      bg: "linear-gradient(135deg, rgba(30, 27, 75, 0.5) 0%, rgba(12, 12, 14, 0.8) 100%)",
-      borderColor: "rgba(99, 102, 241, 0.25)",
-      hoverBorder: "rgba(99, 102, 241, 0.6)",
-      shadow: "0 10px 30px rgba(30, 27, 75, 0.4)"
-    },
-    {
-      Icon: Lock,
-      iconColor: "#f59e0b", // Amber/Yellow
-      title: "Secure & Controllable",
-      desc: "Supports operation allowlists, data masking protection. Inject custom knowledge to make AI work by your rules.",
-      bg: "linear-gradient(135deg, rgba(88, 28, 135, 0.5) 0%, rgba(12, 12, 14, 0.8) 100%)",
-      borderColor: "rgba(168, 85, 247, 0.25)",
-      hoverBorder: "rgba(168, 85, 247, 0.6)",
-      shadow: "0 10px 30px rgba(88, 28, 135, 0.4)"
-    },
-    {
-      Icon: Zap,
-      iconColor: "#f97316", // Orange
-      title: "Zero Backend",
-      desc: "No Playwright, Puppeteer, or heavy cloud infrastructure required. It lives directly inside your web page via CDN or NPM import with custom LLM endpoints.",
-      bg: "linear-gradient(135deg, rgba(6, 78, 59, 0.5) 0%, rgba(12, 12, 14, 0.8) 100%)",
-      borderColor: "rgba(16, 185, 129, 0.25)",
-      hoverBorder: "rgba(16, 185, 129, 0.6)",
-      shadow: "0 10px 30px rgba(6, 78, 59, 0.4)"
-    },
-    {
-      Icon: Accessibility,
-      iconColor: "#3b82f6", // Blue
-      title: "Accessible Intelligence",
-      desc: "Provides natural language interface for complex B2B systems and admin panels. Makes software easy for everyone.",
-      bg: "linear-gradient(135deg, rgba(127, 29, 29, 0.4) 0%, rgba(12, 12, 14, 0.8) 100%)",
-      borderColor: "rgba(239, 68, 68, 0.25)",
-      hoverBorder: "rgba(239, 68, 68, 0.6)",
-      shadow: "0 10px 30px rgba(127, 29, 29, 0.4)"
-    }
-  ];
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const hubRef = useRef<HTMLDivElement>(null);
+  const { nodeRefs, links } = useCoreLinks(wrapRef, hubRef);
 
   return (
-    <section className="section container" id="core-features" style={{ paddingBottom: '120px' }}>
-      <div style={{ marginBottom: '56px', textAlign: 'center' }}>
-        <h2 className="core-title-text" style={{
-          fontSize: '2.5rem',
-          fontWeight: '800',
-          letterSpacing: '-0.03em',
-          lineHeight: '1.2',
-          margin: 0
-        }}>
-          Core Features
-        </h2>
-      </div>
+    <section className="section" id="core-features">
+      <div className="container">
+        <div className="section__head">
+          <h2>The core features <span className="accent-text">behind the autonomy</span></h2>
+          <p>Six capabilities working together behind every task, from a single instruction to a finished result.</p>
+        </div>
 
-      <div className="core-features-grid" style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))',
-        gap: '24px'
-      }}>
-        {CORE_ITEMS.map((item, idx) => (
-          <motion.div
-            key={item.title}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="core-feature-card group"
-            style={{
-              background: item.bg,
-              border: `1px solid ${item.borderColor}`,
-              borderRadius: '20px',
-              padding: '36px 32px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '16px',
-              position: 'relative',
-              overflow: 'hidden',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
-              transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-              cursor: 'default'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = item.hoverBorder;
-              e.currentTarget.style.transform = 'translateY(-6px)';
-              e.currentTarget.style.boxShadow = item.shadow;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = item.borderColor;
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
-            }}
+        {/* Desktop / tablet radial layout */}
+        <motion.div
+          className="core-radial"
+          ref={wrapRef}
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+        >
+          {links.w > 0 && (
+            <svg className="core-radial__links" width={links.w} height={links.h} viewBox={`0 0 ${links.w} ${links.h}`} fill="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="coreLinkLeft" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2={links.cx} y2="0">
+                  <stop offset="0%" stopColor="#f97316" stopOpacity="0.12" />
+                  <stop offset="100%" stopColor="#fdba74" stopOpacity="0.7" />
+                </linearGradient>
+                <linearGradient id="coreLinkRight" gradientUnits="userSpaceOnUse" x1={links.w} y1="0" x2={links.cx} y2="0">
+                  <stop offset="0%" stopColor="#f97316" stopOpacity="0.12" />
+                  <stop offset="100%" stopColor="#fdba74" stopOpacity="0.7" />
+                </linearGradient>
+              </defs>
+              {links.paths.map((p) => (
+                <g key={p.d}>
+                  <path
+                    className="core-radial__link"
+                    d={p.d}
+                    stroke={`url(#coreLink${p.side === "left" ? "Left" : "Right"})`}
+                    strokeWidth="1.5"
+                    strokeDasharray="1.5 7"
+                    strokeLinecap="round"
+                  />
+                  <circle className="core-radial__link-dot" cx={p.x} cy={p.y} r="2.5" />
+                </g>
+              ))}
+            </svg>
+          )}
+
+          {CORE_RADIAL.map((f, i) => {
+            const side = i < 3 ? "left" : "right";
+            return (
+              <motion.div
+                key={f.n}
+                ref={(el: HTMLDivElement | null) => { nodeRefs.current[i] = el; }}
+                className={`core-node core-node--${side}`}
+                style={{ gridColumn: side === "left" ? 1 : 3, gridRow: (i % 3) + 1 }}
+                variants={fadeUp}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <span className="core-node__num">{f.n}</span>
+                <div>
+                  <h3 className="core-node__title">{f.title}</h3>
+                  <p className="core-node__desc">{f.desc}</p>
+                </div>
+              </motion.div>
+            );
+          })}
+
+          <div className="core-hub-anchor" ref={hubRef}>
+            <CoreHub />
+          </div>
+        </motion.div>
+
+        {/* Mobile vertical timeline */}
+        <div className="core-timeline-wrap">
+          <CoreHub compact />
+          <span className="core-timeline-wrap__stem" aria-hidden="true" />
+          <motion.ol
+            className="core-timeline"
+            variants={stagger}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-40px" }}
           >
-            {/* Top accent glow */}
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: '15%',
-              right: '15%',
-              height: '2px',
-              background: `linear-gradient(90deg, transparent, ${item.iconColor}, transparent)`,
-              opacity: 0.8
-            }} />
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <div style={{
-                width: '44px', height: '44px', borderRadius: '12px',
-                background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                flexShrink: 0
-              }}>
-                <item.Icon size={22} color={item.iconColor} strokeWidth={2} />
-              </div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#fff', letterSpacing: '-0.01em', margin: 0 }}>
-                {item.title}
-              </h3>
-            </div>
-
-            <p style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.7)', lineHeight: '1.6', margin: 0 }}>
-              {item.desc}
-            </p>
-          </motion.div>
-        ))}
+            {CORE_RADIAL.map((f) => (
+              <motion.li key={f.n} className="core-timeline__item" variants={fadeUp} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}>
+                <span className="core-timeline__num">{f.n}</span>
+                <div>
+                  <h3 className="core-timeline__title">{f.title}</h3>
+                  <p className="core-timeline__desc">{f.desc}</p>
+                </div>
+              </motion.li>
+            ))}
+          </motion.ol>
+        </div>
       </div>
     </section>
   );
